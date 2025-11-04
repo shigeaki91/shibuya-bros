@@ -11,25 +11,36 @@ public abstract class Character : MonoBehaviour
     public float gravity = 9.81f;
     public int PlayerID;
 
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb;
+    public SpriteRenderer sr;
     protected bool isGrounded = true;
+    public bool canMove = true;
+    public bool isInvincible = false;
+
+    [Header("Attacks")]
+    public Attack dashAttack;
+
 
     protected void Init(string name)
     {
         characterName = name;
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponent<SpriteRenderer>();
+
+        dashAttack.Init(this);
     }
 
     protected virtual void Update()
     {
         ApplyGravity();
+        OnDashAttack();
     }
 
-    public virtual void Move(float direction)
+    public virtual void Move(float direction, float speedScaler)
     {
-       rb.linearVelocity = new Vector2(direction * speed, rb.linearVelocity.y);
+       rb.linearVelocity = new Vector2(direction * speedScaler, rb.linearVelocity.y);
     }
-    
+
     public virtual void Jump()
     {
         if (isGrounded)
@@ -39,6 +50,17 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    void OnDashAttack()
+    {
+        if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space))
+        {
+            dashAttack.Activate();
+        }
+        else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            dashAttack.Activate();
+        }
+    }
     public virtual void TakeDamage(float damage)
     {
         hp -= damage;
@@ -67,16 +89,35 @@ public abstract class Character : MonoBehaviour
 
         if (PlayerID == 1)
         {
-            if (Input.GetKey(KeyCode.A)) moveDir = -1f;
-            else if (Input.GetKey(KeyCode.D)) moveDir = 1f;
+            if (Input.GetKey(KeyCode.A))
+            {
+                moveDir = -1f;
+                sr.flipX = true;
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                moveDir = 1f;
+                sr.flipX = false;
+            }
             if (Input.GetKeyDown(KeyCode.W)) Jump();
         }
         else if (PlayerID == 2)
         {
-            if (Input.GetKey(KeyCode.LeftArrow)) moveDir = -1f;
-            else if (Input.GetKey(KeyCode.RightArrow)) moveDir = 1f;
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                moveDir = -1f;
+                sr.flipX = true;
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                moveDir = 1f;
+                sr.flipX = false;
+            }
             if (Input.GetKeyDown(KeyCode.UpArrow)) Jump();
         }
-        Move(moveDir);
+        if (canMove)
+        {
+            Move(moveDir, speed);
+        }
     }
 }

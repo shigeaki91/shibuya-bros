@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public List<Character> characters;
     public float timelimit = 180f;
 
-    private float timer;
+    public float timer;
 
     void Start()
     {
