@@ -17,8 +17,8 @@ public class HitBox : MonoBehaviour
         {
             target.canMove = false;
             target.isInvincible = true;
-            //target.StartCoroutine(DownCoroutine(target, downTime));
-            //target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
+            target.StartCoroutine(DownCoroutine(target, downTime));
+            target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
             target.TakeDamage(damage);
             rb = target.GetComponent<Rigidbody2D>();
             rb.linearVelocity = knockback;
@@ -27,13 +27,7 @@ public class HitBox : MonoBehaviour
 
     private System.Collections.IEnumerator DownCoroutine(Character target, float downTime)
     {
-        float elapsed = 0f;
-        while (elapsed < downTime)
-        {
-            elapsed += Time.deltaTime;
-            rb.linearVelocityX -= (knockback.x / downTime) * Time.deltaTime;
-            yield return null;
-        }
+        yield return new WaitForSeconds(downTime);
         target.canMove = true;
     }
     private System.Collections.IEnumerator InvincibilityCoroutine(Character target, float duration)
@@ -44,11 +38,11 @@ public class HitBox : MonoBehaviour
 
         while (elapsed < duration)
         {
-            sr.enabled = !sr.enabled;
+            //sr.enabled = !sr.enabled;
             yield return new WaitForSeconds(blinkInterval);
             elapsed += blinkInterval;
         }
-        sr.enabled = true;
+        //sr.enabled = true;
         target.isInvincible = false;
     }
 

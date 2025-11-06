@@ -1,18 +1,17 @@
 using UnityEngine;
 
-public class DashAttack : Attack
+public class UpSmash : Attack
 {
-    public float dashSpeed;
     public HitBox hitBox;
     void Start()
     {
-        attackName = "Dash Attack";
-        damage = 6.4f;
-        knockback = new Vector2(2f, 4f);
-        occurTime = 0.15f;
-        duration = 0.6f;
-        endingLag = 0.15f;
-        
+        attackName = "Up Smash";
+        damage = 12.0f;
+        knockback = new Vector2(0f, 10f);
+        occurTime = 0.4f;
+        duration = 0.4f;
+        endingLag = 0.3f;
+
         hitBox.owner = owner;
         hitBox.damage = damage;
         hitBox.gameObject.SetActive(false);
@@ -22,26 +21,22 @@ public class DashAttack : Attack
     {
         base.Activate();
         hitBox.knockback = knockback;
-        hitBox.knockback.x = knockback.x * direction;
         Vector2 localPos = hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * direction;
         hitBox.transform.localPosition = localPos;
 
-        dashSpeed = owner.speed * 3f;
-        
-        owner.StartCoroutine(DashCoroutine(direction));
+        owner.StartCoroutine(UpSmashCoroutine());
     }
 
-    private System.Collections.IEnumerator DashCoroutine(float direction)
+    private System.Collections.IEnumerator UpSmashCoroutine()
     {
+        owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(occurTime);
-        float elapsed = 0f;
         hitBox.gameObject.SetActive(true);
+        float elapsed = 0f;
         while (elapsed < duration)
         {
-            owner.Move(direction, dashSpeed);
             elapsed += Time.deltaTime;
-            dashSpeed -= (owner.speed * 3f / duration) * Time.deltaTime;
             yield return null;
         }
 

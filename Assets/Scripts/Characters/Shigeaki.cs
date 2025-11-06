@@ -9,6 +9,5 @@ public class Shigeaki : Character
     protected override void Update()
     {
         base.Update();
-        HandleInput();
     }
 }

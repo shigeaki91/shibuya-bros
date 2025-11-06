@@ -5,24 +5,26 @@ public abstract class Attack : MonoBehaviour
     public string attackName;
     public float damage;
     public Vector2 knockback;
+    public float occurTime;
     public float duration;
+    public float endingLag;
+    public float direction;
     protected bool isActive;
     protected float timer;
 
-    protected Character owner;
+    public Character owner;
 
     public virtual void Init(Character owner)
     {
         this.owner = owner;
         isActive = false;
-        timer = 0f;
     }
 
     public virtual void Activate()
     {
+        direction = owner.sr.flipX ? -1f : 1f;
         isActive = true;
         owner.canMove = false;
-        timer = duration;
         Debug.Log($"{attackName}");
     }
 
