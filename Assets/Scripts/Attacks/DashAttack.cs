@@ -7,22 +7,22 @@ public class DashAttack : Attack
     void Start()
     {
         attackName = "Dash Attack";
-        damage = 6.4f;
-        knockback = new Vector2(2f, 4f);
+        damage[0] = 6.4f;
+        knockback[0] = new Vector2(2f, 4f);
         occurTime = 0.15f;
         duration = 0.6f;
         endingLag = 0.15f;
         
         hitBox.owner = owner;
-        hitBox.damage = damage;
+        hitBox.damage = damage[0];
         hitBox.gameObject.SetActive(false);
     }
 
     public override void Activate()
     {
         base.Activate();
-        hitBox.knockback = knockback;
-        hitBox.knockback.x = knockback.x * direction;
+        hitBox.knockback = knockback[0];
+        hitBox.knockback.x = knockback[0].x * direction;
         Vector2 localPos = hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * direction;
         hitBox.transform.localPosition = localPos;
@@ -44,9 +44,8 @@ public class DashAttack : Attack
             dashSpeed -= (owner.speed * 3f / duration) * Time.deltaTime;
             yield return null;
         }
-
-        yield return new WaitForSeconds(endingLag);
         hitBox.gameObject.SetActive(false);
+        yield return new WaitForSeconds(endingLag);
         Deactivate();
     }
 }

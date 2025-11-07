@@ -1,15 +1,16 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Attack : MonoBehaviour
 {
     public string attackName;
-    public float damage;
-    public Vector2 knockback;
+    public List<float> damage;
+    public List<Vector2> knockback;
     public float occurTime;
     public float duration;
     public float endingLag;
     public float direction;
-    protected bool isActive;
+    public bool isActive;
     protected float timer;
 
     public Character owner;
@@ -32,7 +33,7 @@ public abstract class Attack : MonoBehaviour
     {
         isActive = false;
         owner.canMove = true;
-        Debug.Log($"{attackName}");
+        Debug.Log($"{attackName}" + " ended");
     }
 
     protected virtual void OnDrawGizmos()

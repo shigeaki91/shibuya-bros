@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,8 +12,10 @@ public abstract class Character : MonoBehaviour
     public float moveDir = 0f;
     public float dashTimer = 0f;
     public float jumpPower = 10f;
-    public float jumpTimer = 0f;
+    public float jumpElapsed = 0f;
     public float jumpLag = 0.1f;
+    public float jumpTimer = 0f;
+    public float jumpDuration = 0.2f;
     public int maxJumpCount = 2;
     public int currentJumpCount = 0;
     public float jumpCool = 0.3f;
@@ -26,11 +29,17 @@ public abstract class Character : MonoBehaviour
     public bool isGrounded = true;
     public bool canMove = true;
     public bool isInvincible = false;
+    public bool isJumping = false;
 
     [Header("Attacks")]
+    public WeakAttack weakAttack;
     public DashAttack dashAttack;
     public SideSmash sideSmash;
     public UpSmash upSmash;
+    public AirNeutral airNeutral;
+    public AirSide airSide;
+    public AirUp airUp;
+    public AirDown airDown;
 
 
     protected void Init(string name)
@@ -43,6 +52,11 @@ public abstract class Character : MonoBehaviour
         dashAttack.Init(this);
         sideSmash.Init(this);
         upSmash.Init(this);
+        weakAttack.Init(this);
+        airNeutral.Init(this);
+        airSide.Init(this);
+        airUp.Init(this);
+        airDown.Init(this);
     }
 
     protected virtual void Update()
@@ -54,6 +68,11 @@ public abstract class Character : MonoBehaviour
         OnDashAttack();
         OnSideSmash();
         OnUpSmash();
+        OnWeakAttack();
+        OnAirNeutral();
+        OnAirSide();
+        OnAirUp();
+        OnAirDown();
 
 
         if (jumpCoolTimer > 0f)
@@ -64,14 +83,21 @@ public abstract class Character : MonoBehaviour
                 jumpCoolTimer = 0f;
             }
         }
-        if (jumpTimer > 0f)
+        if (jumpElapsed > 0f)
         {
-            jumpTimer += Time.deltaTime;
-            if (jumpTimer >= jumpLag)
+            jumpElapsed += Time.deltaTime;
+            if (jumpElapsed >= jumpLag)
             {
                 Jump();
-                jumpTimer = 0f;
+                jumpElapsed = 0f;
             }
+        }
+        if (isJumping) rb.linearVelocityY = jumpPower;
+        if (jumpTimer > 0f) jumpTimer += Time.deltaTime;
+        if (jumpTimer >= jumpDuration || isGrounded)
+        {
+            isJumping = false;
+            jumpTimer = 0f;
         }
     }
 
@@ -85,12 +111,37 @@ public abstract class Character : MonoBehaviour
         if (currentJumpCount < maxJumpCount && jumpCoolTimer <= 0f && canMove)
         {
             jumpCoolTimer += Time.deltaTime;
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            jumpTimer += Time.deltaTime;
+            isJumping = true;
             isGrounded = false;
             currentJumpCount++;
         }
     }
-
+    void OnWeakAttack()
+    {
+        if (isGrounded == true && canMove == true && Mathf.Abs(moveDir) < 1f)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space))
+            {
+                weakAttack.Activate();
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                weakAttack.Activate();
+            }
+        }
+        if (weakAttack.isActive == true)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space) && weakAttack.attackCount < 3)
+            {
+                weakAttack.attackCount += 1;
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter) && weakAttack.attackCount < 3)
+            {
+                weakAttack.attackCount += 1;
+            }
+        }
+    }
     void OnDashAttack()
     {
         if (isGrounded == true && canMove == true && dashTimer >= 0.1f)
@@ -107,7 +158,7 @@ public abstract class Character : MonoBehaviour
     }
     void OnSideSmash()
     {
-        if (isGrounded == true && canMove == true && dashTimer <= 0.2f && moveDir != 0)
+        if (isGrounded == true && canMove == true && dashTimer <= 0.1f && Mathf.Abs(moveDir) == 1f)
         {
             if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space))
             {
@@ -121,17 +172,73 @@ public abstract class Character : MonoBehaviour
     }
     void OnUpSmash()
     {
-        if (isGrounded == true && canMove == true && moveDir == 0 && jumpTimer > 0f)
+        if (isGrounded == true && canMove == true && moveDir == 0 && jumpElapsed > 0f)
         {
             if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space))
             {
                 upSmash.Activate();
-                jumpTimer = 0f;
+                jumpElapsed = 0f;
             }
             else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 upSmash.Activate();
-                jumpTimer = 0f;
+                jumpElapsed = 0f;
+            }
+        }
+    }
+    void OnAirNeutral()
+    {
+        if (isGrounded == false && canMove == true && Mathf.Abs(moveDir) < 1f)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+            {
+                airNeutral.Activate();
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
+            {
+                airNeutral.Activate();
+            }
+        }
+    }
+    void OnAirSide()
+    {
+        if (isGrounded == false && canMove == true && Mathf.Abs(moveDir) == 1f)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+            {
+                airSide.Activate();
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
+            {
+                airSide.Activate();
+            }
+        }
+    }
+    void OnAirUp()
+    {
+        if (isGrounded == false && canMove == true)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+            {
+                airUp.Activate();
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow))
+            {
+                airUp.Activate();
+            }
+        }
+    }
+    void OnAirDown()
+    {
+        if (isGrounded == false && canMove == true)
+        {
+            if (PlayerID == 1 && Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.S))
+            {
+                airDown.Activate();
+            }
+            else if (PlayerID == 2 && Input.GetKeyDown(KeyCode.KeypadEnter) && Input.GetKey(KeyCode.DownArrow))
+            {
+                airDown.Activate();
             }
         }
     }
@@ -172,7 +279,9 @@ public abstract class Character : MonoBehaviour
 
     protected void HandleInput()
     {
-        moveDir = 0f;
+        if (moveDir < 0f) moveDir += Time.deltaTime * 5f;
+        else if (moveDir > 0f) moveDir -= Time.deltaTime * 5f;
+        if (Mathf.Abs(moveDir) < 0.1f) moveDir = 0f;
 
         if (PlayerID == 1)
         {
@@ -186,7 +295,8 @@ public abstract class Character : MonoBehaviour
                 moveDir = 1f;
                 sr.flipX = false;
             }
-            if (Input.GetKeyDown(KeyCode.W)) jumpTimer += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.W)) jumpElapsed += Time.deltaTime;
+            if (!Input.GetKey(KeyCode.W)) isJumping = false;
         }
         else if (PlayerID == 2)
         {
@@ -200,11 +310,12 @@ public abstract class Character : MonoBehaviour
                 moveDir = 1f;
                 sr.flipX = false;
             }
-            if (Input.GetKeyDown(KeyCode.UpArrow)) jumpTimer += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.UpArrow)) jumpElapsed += Time.deltaTime;
+            if (!Input.GetKey(KeyCode.UpArrow)) isJumping = false;
         }
 
         dashTimer += Time.deltaTime;
-        dashTimer *= Mathf.Abs(moveDir);
+        if (Mathf.Abs(moveDir) < 1f) dashTimer = 0f;
         if (canMove)
         {
             Move(moveDir, speed);

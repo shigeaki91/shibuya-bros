@@ -6,22 +6,22 @@ public class SideSmash : Attack
     void Start()
     {
         attackName = "Side Smash";
-        damage = 15.2f;
-        knockback = new Vector2(12f, 5f);
+        damage[0] = 15.2f;
+        knockback[0] = new Vector2(12f, 5f);
         occurTime = 0.5f;
         duration = 0.5f;
         endingLag = 0.3f;
 
         hitBox.owner = owner;
-        hitBox.damage = damage;
+        hitBox.damage = damage[0];
         hitBox.gameObject.SetActive(false);
     }
 
     public override void Activate()
     {
         base.Activate();
-        hitBox.knockback = knockback;
-        hitBox.knockback.x = knockback.x * direction;
+        hitBox.knockback = knockback[0];
+        hitBox.knockback.x = knockback[0].x * direction;
         Vector2 localPos = hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * direction;
         hitBox.transform.localPosition = localPos;
@@ -40,9 +40,8 @@ public class SideSmash : Attack
             elapsed += Time.deltaTime;
             yield return null;
         }
-
-        yield return new WaitForSeconds(endingLag);
         hitBox.gameObject.SetActive(false);
+        yield return new WaitForSeconds(endingLag);
         Deactivate();
     }
 }

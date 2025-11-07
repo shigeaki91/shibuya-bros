@@ -1,17 +1,17 @@
 using UnityEngine;
 
-public class UpSmash : Attack
+public class AirDown : Attack
 {
     public HitBox hitBox;
     void Start()
     {
-        attackName = "Up Smash";
-        damage[0] = 12.0f;
-        knockback[0] = new Vector2(0f, 10f);
-        occurTime = 0.4f;
-        duration = 0.4f;
-        endingLag = 0.3f;
-
+        attackName = "Air Down";
+        damage[0] = 8.2f;
+        knockback[0] = new Vector2(0f, -5f);
+        occurTime = 0.2f;
+        duration = 0.2f;
+        endingLag = 0.4f;
+        
         hitBox.owner = owner;
         hitBox.damage = damage[0];
         hitBox.gameObject.SetActive(false);
@@ -21,23 +21,27 @@ public class UpSmash : Attack
     {
         base.Activate();
         hitBox.knockback = knockback[0];
+        hitBox.knockback.x = knockback[0].x * direction;
         Vector2 localPos = hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * direction;
         hitBox.transform.localPosition = localPos;
-
-        owner.StartCoroutine(UpSmashCoroutine());
+        
+        owner.StartCoroutine(DashCoroutine(direction));
     }
 
-    private System.Collections.IEnumerator UpSmashCoroutine()
+    private System.Collections.IEnumerator DashCoroutine(float direction)
     {
-        owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(occurTime);
-        hitBox.gameObject.SetActive(true);
         float elapsed = 0f;
+        hitBox.gameObject.SetActive(true);
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
+            if (owner.isGrounded)
+            {
+                break;
+            }
         }
         hitBox.gameObject.SetActive(false);
         yield return new WaitForSeconds(endingLag);
