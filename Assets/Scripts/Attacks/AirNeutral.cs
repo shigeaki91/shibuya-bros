@@ -1,40 +1,43 @@
+using R3;
 using UnityEngine;
 
 public class AirNeutral : Attack
 {
     public HitBox hitBox;
-    void Start()
+    public AirNeutral(Character owner, Observable<Unit> attackInput, AirNeutralConfig config)
     {
-        attackName = "Air Neutral";
-        damage[0] = 4.6f;
-        knockback[0] = new Vector2(3f, 2f);
-        occurTime = 0.1f;
-        duration = 0.6f;
-        endingLag = 0.15f;
+        Init(owner);
+        _attackName = config.AttackName;
+        _damage[0] = config.Damage;
+        _knockback[0] = config.Knockback;
+        _occurTime = config.OccurTime;
+        _duration = config.Duration;
+        _endingLag = config.EndingLag;
+        _attackInput = attackInput;
         
         hitBox.owner = owner;
-        hitBox.damage = damage[0];
+        hitBox.damage = _damage[0];
         hitBox.gameObject.SetActive(false);
     }
 
     public override void Activate()
     {
         base.Activate();
-        hitBox.knockback = knockback[0];
-        hitBox.knockback.x = knockback[0].x * direction;
+        hitBox.knockback = _knockback[0];
+        hitBox.knockback.x = _knockback[0].x * _direction;
         Vector2 localPos = hitBox.transform.localPosition;
-        localPos.x = Mathf.Abs(localPos.x) * direction;
+        localPos.x = Mathf.Abs(localPos.x) * _direction;
         hitBox.transform.localPosition = localPos;
         
-        owner.StartCoroutine(DashCoroutine(direction));
+        owner.StartCoroutine(DashCoroutine(_direction));
     }
 
     private System.Collections.IEnumerator DashCoroutine(float direction)
     {
-        yield return new WaitForSeconds(occurTime);
+        yield return new WaitForSeconds(_occurTime);
         float elapsed = 0f;
         hitBox.gameObject.SetActive(true);
-        while (elapsed < duration)
+        while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
@@ -44,7 +47,7 @@ public class AirNeutral : Attack
             }
         }
         hitBox.gameObject.SetActive(false);
-        yield return new WaitForSeconds(endingLag);
+        yield return new WaitForSeconds(_endingLag);
         Deactivate();
     }
 }

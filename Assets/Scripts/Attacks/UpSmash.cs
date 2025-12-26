@@ -1,28 +1,30 @@
 using UnityEngine;
+using R3;
 
 public class UpSmash : Attack
 {
     public HitBox hitBox;
-    void Start()
+    public UpSmash(Character owner, Observable<Unit> attackInput, UpSmashConfig config)
     {
-        attackName = "Up Smash";
-        damage[0] = 12.0f;
-        knockback[0] = new Vector2(0f, 10f);
-        occurTime = 0.4f;
-        duration = 0.4f;
-        endingLag = 0.3f;
+        _attackName = config.AttackName;
+        _damage[0] = config.Damage;
+        _knockback[0] = config.Knockback;
+        _occurTime = config.OccurTime;
+        _duration = config.Duration;
+        _endingLag = config.EndingLag;
+        _attackInput = attackInput;
 
         hitBox.owner = owner;
-        hitBox.damage = damage[0];
+        hitBox.damage = _damage[0];
         hitBox.gameObject.SetActive(false);
     }
 
     public override void Activate()
     {
         base.Activate();
-        hitBox.knockback = knockback[0];
+        hitBox.knockback = _knockback[0];
         Vector2 localPos = hitBox.transform.localPosition;
-        localPos.x = Mathf.Abs(localPos.x) * direction;
+        localPos.x = Mathf.Abs(localPos.x) * _direction;
         hitBox.transform.localPosition = localPos;
 
         owner.StartCoroutine(UpSmashCoroutine());
@@ -31,16 +33,16 @@ public class UpSmash : Attack
     private System.Collections.IEnumerator UpSmashCoroutine()
     {
         owner.rb.linearVelocityX = 0f;
-        yield return new WaitForSeconds(occurTime);
+        yield return new WaitForSeconds(_occurTime);
         hitBox.gameObject.SetActive(true);
         float elapsed = 0f;
-        while (elapsed < duration)
+        while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
         hitBox.gameObject.SetActive(false);
-        yield return new WaitForSeconds(endingLag);
+        yield return new WaitForSeconds(_endingLag);
         Deactivate();
     }
 }

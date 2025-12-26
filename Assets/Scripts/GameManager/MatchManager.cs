@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class MatchManager : MonoBehaviour
 {
-    public Stage stage;
+    public StageManager stage;
     public List<Character> characters;
     public float timelimit = 180f;
 

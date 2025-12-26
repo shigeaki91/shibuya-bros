@@ -1,16 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using R3;
 
-public abstract class Attack : MonoBehaviour
+public abstract class Attack
 {
-    public string attackName;
-    public List<float> damage;
-    public List<Vector2> knockback;
-    public float occurTime;
-    public float duration;
-    public float endingLag;
-    public float direction;
+    public Observable<Unit> _attackInput;
+    public string _attackName;
+    public List<float> _damage;
+    public List<Vector2> _knockback;
+    public float _occurTime;
+    public float _duration;
+    public float _endingLag;
+    public float _direction;
     public bool isActive;
+
     protected float timer;
 
     public Character owner;
@@ -23,25 +27,16 @@ public abstract class Attack : MonoBehaviour
 
     public virtual void Activate()
     {
-        direction = owner.sr.flipX ? -1f : 1f;
+        _direction = owner.sr.flipX ? -1f : 1f;
         isActive = true;
         owner.canMove = false;
-        Debug.Log($"{attackName}");
+        Debug.Log($"{_attackName}");
     }
 
     public virtual void Deactivate()
     {
         isActive = false;
         owner.canMove = true;
-        Debug.Log($"{attackName}" + " ended");
-    }
-
-    protected virtual void OnDrawGizmos()
-    {
-        if (isActive)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, 1f);
-        }
+        Debug.Log($"{_attackName}" + " ended");
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Stage : MonoBehaviour
+public class StageManager : MonoBehaviour
 {
     public string stageName;
     public Vector2 stageSize;

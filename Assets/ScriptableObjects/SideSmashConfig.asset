@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5672cff7cf564d42948c61c17e3b09e, type: 3}
+  m_Name: SideSmashConfig
+  m_EditorClassIdentifier: 
+  _damage: 15.2
+  _knockback: {x: 12, y: 5}
+  _occurTime: 0.5
+  _duration: 0.5
+  _endingLag: 0.3
