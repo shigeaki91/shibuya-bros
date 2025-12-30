@@ -1,5 +1,6 @@
-public enum AttackStates
+public enum AttackTypes
 {
+    None,
     AirNeutral,
     AirSide,
     AirUp,
@@ -7,5 +8,8 @@ public enum AttackStates
     DashAttack,
     SideSmash,
     UpSmash,
-    WeakAttack
+    WeakAttack,
+    WeakAttack0,
+    WeakAttack1,
+    WeakAttack2
 }

@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class HitBox : MonoBehaviour
 {
-    public Character owner;
-    public float damage;
-    public Vector2 knockback;
+    public Character Owner;
+    public AttackTypes AttackType;
+    public float Damage;
+    public Vector2 Knockback;
     public float InvincibilityDuration = 0.05f;
     public float downTime = 0.35f;
     public bool hit = false;
@@ -14,16 +15,16 @@ public class HitBox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Character target = collision.GetComponent<Character>();
-        if (target != null && target != owner && target.isInvincible == false)
+        if (target != null && target != Owner && target.isInvincible == false)
         {
             hit = true;
             target.canMove = false;
             //target.isInvincible = true;
             target.StartCoroutine(DownCoroutine(target, downTime));
             target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
-            target.TakeDamage(damage);
+            target.TakeDamage(Damage);
             rb = target.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = knockback;
+            rb.linearVelocity = Knockback;
         }
     }
 

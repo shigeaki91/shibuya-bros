@@ -7,8 +7,8 @@ public abstract class Attack
 {
     public Observable<Unit> _attackInput;
     public string _attackName;
-    public List<float> _damage;
-    public List<Vector2> _knockback;
+    public float _damage;
+    public Vector2 _knockback;
     public float _occurTime;
     public float _duration;
     public float _endingLag;
@@ -17,26 +17,26 @@ public abstract class Attack
 
     protected float timer;
 
-    public Character owner;
+    protected Character _owner;
 
     public virtual void Init(Character owner)
     {
-        this.owner = owner;
+        _owner = owner;
         isActive = false;
     }
 
     public virtual void Activate()
     {
-        _direction = owner.sr.flipX ? -1f : 1f;
+        _direction = _owner.sr.flipX ? -1f : 1f;
         isActive = true;
-        owner.canMove = false;
+        _owner.canMove = false;
         Debug.Log($"{_attackName}");
     }
 
     public virtual void Deactivate()
     {
         isActive = false;
-        owner.canMove = true;
+        _owner.canMove = true;
         Debug.Log($"{_attackName}" + " ended");
     }
 }

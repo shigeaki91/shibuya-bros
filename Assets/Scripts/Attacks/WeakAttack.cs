@@ -1,20 +1,31 @@
-using System.Collections.Generic;
 using UnityEngine;
 using R3;
+using VContainer;
+using System.Collections.Generic;
 
 public class WeakAttack : Attack
 {
     public int attackCount = 0;
-    public List<HitBox> hitBox;
-    public WeakAttack(Character owner, Observable<Unit> attackInput, WeakAttackConfig config)
+    List<HitBox> _hitBox;
+    float[] _damages = new float[3];
+    Vector2[] _knockbacks = new Vector2[3];
+    AttackTypes _attackType = AttackTypes.WeakAttack;
+    AttackTypes[] _attackTypes = new AttackTypes[3]
     {
+        AttackTypes.WeakAttack0,
+        AttackTypes.WeakAttack1,
+        AttackTypes.WeakAttack2
+    };
+    public WeakAttack(Character owner, Observable<Unit> attackInput, WeakAttackConfig config, [Key(AttackTypes.WeakAttack)]  List<HitBox> hitBox)
+    {
+        Init(owner);
         _attackName = config.AttackName;
-        _damage[0] = config.Damage[0];
-        _damage[1] = config.Damage[1];
-        _damage[2] = config.Damage[2];
-        _knockback[0] = config.Knockback[0];
-        _knockback[1] = config.Knockback[1];
-        _knockback[2] = config.Knockback[2];
+        for (int i = 0; i < 3; i++)
+        {
+            _damages[i] = config.Damage[i];
+            _knockbacks[i] = config.Knockback[i];
+        }
+        _hitBox = hitBox;
 
         _occurTime = config.OccurTime;
         _duration = config.Duration;
@@ -22,10 +33,22 @@ public class WeakAttack : Attack
         _attackInput = attackInput;
         for (int i = 0; i < 3; i++)
         {
-            hitBox[i].owner = owner;
-            hitBox[i].damage = _damage[i];
-            hitBox[i].gameObject.SetActive(false);
+            _hitBox[i].Owner = owner;
+            _hitBox[i].AttackType = _attackTypes[i];
+            _hitBox[i].Damage = _damages[i];
+            _hitBox[i].gameObject.SetActive(false);
         }
+
+        _attackInput
+            .Where(_ =>  attackCount < 3)
+            .Subscribe(_ => {
+                attackCount++;
+            })
+            .AddTo(_owner);
+        _attackInput
+            .Where(_ => _owner.GetAttackState() == _attackType)
+            .Subscribe(_ => Activate())
+            .AddTo(_owner);
     }
 
     public override void Activate()
@@ -33,33 +56,33 @@ public class WeakAttack : Attack
         base.Activate();
         for (int i = 0; i < 3; i++)
         {
-            hitBox[i].knockback = _knockback[i];
-            hitBox[i].knockback.x = _knockback[i].x * _direction;
-            Vector2 localPos = hitBox[i].transform.localPosition;
+            _hitBox[i].Knockback = _knockbacks[i];
+            _hitBox[i].Knockback.x = _knockbacks[i].x * _direction;
+            Vector2 localPos = _hitBox[i].transform.localPosition;
             localPos.x = Mathf.Abs(localPos.x) * _direction;
-            hitBox[i].transform.localPosition = localPos;
+            _hitBox[i].transform.localPosition = localPos;
         }
 
-        owner.StartCoroutine(WeakAttackCoroutine0());
+        _owner.StartCoroutine(WeakAttackCoroutine0());
     }
 
     private System.Collections.IEnumerator WeakAttackCoroutine0()
     {
-        owner.rb.linearVelocityX = 0f;
+        _owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(_occurTime);
-        hitBox[0].gameObject.SetActive(true);
+        _hitBox[0].gameObject.SetActive(true);
         float elapsed = 0f;
         while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
-        hitBox[0].gameObject.SetActive(false);
+        _hitBox[0].gameObject.SetActive(false);
         yield return new WaitForSeconds(_endingLag);
-        if (attackCount >= 2 && hitBox[0].hit == true)
+        if (attackCount >= 2 && _hitBox[0].hit == true)
         {
-            owner.StartCoroutine(WeakAttackCoroutine1());
-            hitBox[0].hit = false;
+            _owner.StartCoroutine(WeakAttackCoroutine1());
+            _hitBox[0].hit = false;
         }
         else
         {
@@ -70,18 +93,18 @@ public class WeakAttack : Attack
 
     private System.Collections.IEnumerator WeakAttackCoroutine1()
     {
-        owner.rb.linearVelocityX = 0f;
+        _owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(_occurTime);
-        hitBox[1].gameObject.SetActive(true);
+        _hitBox[1].gameObject.SetActive(true);
         float elapsed = 0f;
         while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
-        hitBox[1].gameObject.SetActive(false);
+        _hitBox[1].gameObject.SetActive(false);
         yield return new WaitForSeconds(_endingLag);
-        if (attackCount == 3) owner.StartCoroutine(WeakAttackCoroutine2());
+        if (attackCount == 3) _owner.StartCoroutine(WeakAttackCoroutine2());
         else
         {
             Deactivate();
@@ -91,16 +114,16 @@ public class WeakAttack : Attack
 
     private System.Collections.IEnumerator WeakAttackCoroutine2()
     {
-        owner.rb.linearVelocityX = 0f;
+        _owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(_occurTime);
-        hitBox[2].gameObject.SetActive(true);
+        _hitBox[2].gameObject.SetActive(true);
         float elapsed = 0f;
         while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;
             yield return null;
         }
-        hitBox[2].gameObject.SetActive(false);
+        _hitBox[2].gameObject.SetActive(false);
         yield return new WaitForSeconds(_endingLag);
         Deactivate();
         attackCount = 0;
