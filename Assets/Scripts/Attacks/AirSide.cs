@@ -10,7 +10,6 @@ public class AirSide : Attack
     {
         Init(owner);
         _attackName = config.AttackName;
-        _damage = config.Damage;
         _knockback = config.Knockback;
         _occurTime = config.OccurTime;
         _duration = config.Duration;
@@ -18,8 +17,9 @@ public class AirSide : Attack
         _attackInput = attackInput;
         _hitBox = hitBox;
         
-        _hitBox.Owner = owner;
-        _hitBox.Damage = _damage;
+        _hitBox.Owner = _owner;
+        _hitBox.Damage = config.Damage;
+        _hitBox.DownTime = config.DownTime;
         _hitBox.gameObject.SetActive(false);
 
         _attackInput
@@ -35,7 +35,7 @@ public class AirSide : Attack
         _hitBox.Knockback.x = _knockback.x * _direction;
         Vector2 localPos = _hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * _direction;
-        _hitBox.transform.localPosition = localPos;
+        _hitBox.transform.localPosition = localPos; //プレイヤーの向きが必要になるため、ノックバックはここで設定。
         
         _owner.StartCoroutine(AirSideCoroutine());
     }

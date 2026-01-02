@@ -9,6 +9,7 @@ public class WeakAttackConfig : ScriptableObject
     [SerializeField] float[] _occurTime = new float[] { 0.1f, 0.1f, 0.18f };
     [SerializeField] float[] _duration = new float[] { 0.07f, 0.07f, 0.08f };
     [SerializeField] float[] _endingLag = new float[] { 0.1f, 0.1f, 0.15f };
+    [SerializeField] float[] _downTime = new float[] { 0.15f, 0.15f, 0.35f };
 
     public string AttackName => _attackName;
     public float[] Damage => _damage;
@@ -16,4 +17,5 @@ public class WeakAttackConfig : ScriptableObject
     public float[] OccurTime => _occurTime;
     public float[] Duration => _duration;
     public float[] EndingLag => _endingLag;
+    public float[] DownTime => _downTime;
 }

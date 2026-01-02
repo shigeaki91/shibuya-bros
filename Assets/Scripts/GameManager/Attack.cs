@@ -7,7 +7,6 @@ public abstract class Attack
 {
     public Observable<Unit> _attackInput;
     public string _attackName;
-    public float _damage;
     public Vector2 _knockback;
     public float _occurTime;
     public float _duration;

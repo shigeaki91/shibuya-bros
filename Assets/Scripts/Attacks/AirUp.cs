@@ -10,7 +10,6 @@ public class AirUp : Attack
     {
         Init(owner);
         _attackName = config.AttackName;
-        _damage = config.Damage;
         _knockback = config.Knockback;
         _occurTime = config.OccurTime;
         _duration = config.Duration;
@@ -18,8 +17,9 @@ public class AirUp : Attack
         _attackInput = attackInput;
         _hitBox = hitBox;
         
-        _hitBox.Owner = owner;
-        _hitBox.Damage = _damage;
+        _hitBox.Owner = _owner;
+        _hitBox.Damage = config.Damage;
+        _hitBox.DownTime = config.DownTime;
         _hitBox.gameObject.SetActive(false);
 
         _attackInput

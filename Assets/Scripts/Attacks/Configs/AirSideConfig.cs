@@ -6,9 +6,10 @@ public class AirSideConfig : ScriptableObject
     [SerializeField] string _attackName = "Air Side";
     [SerializeField] float _damage = 6.8f;
     [SerializeField] Vector2 _knockback = new Vector2(4f, 2f);
-    [SerializeField] float _occurTime = 0.2f;
-    [SerializeField] float _duration = 0.2f;
-    [SerializeField] float _endingLag = 0.3f;
+    [SerializeField] float _occurTime = 0.22f;
+    [SerializeField] float _duration = 0.12f;
+    [SerializeField] float _endingLag = 0.25f;
+    [SerializeField] float _downTime = 0.5f;
     
     public string AttackName => _attackName;
     public float Damage => _damage;
@@ -16,4 +17,5 @@ public class AirSideConfig : ScriptableObject
     public float OccurTime => _occurTime;
     public float Duration => _duration;
     public float EndingLag => _endingLag;
+    public float DownTime => _downTime;
 }

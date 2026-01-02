@@ -8,7 +8,7 @@ public class HitBox : MonoBehaviour
     public float Damage;
     public Vector2 Knockback;
     public float InvincibilityDuration = 0.05f;
-    public float downTime = 0.35f;
+    public float DownTime = 0.35f;
     public bool hit = false;
     private Rigidbody2D rb;
 
@@ -20,11 +20,11 @@ public class HitBox : MonoBehaviour
             hit = true;
             target.isTakingDamage = true;
             //target.isInvincible = true;
-            target.StartCoroutine(DownCoroutine(target, downTime));
+            target.StartCoroutine(DownCoroutine(target, DownTime * target.GetDownTimeMultiplier()));
             target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
-            target.TakeDamage(Damage);
             rb = target.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = Knockback;
+            rb.linearVelocity = Knockback * target.GetHitKnockbackMultiplier();
+            target.TakeDamage(Damage);
         }
     }
 

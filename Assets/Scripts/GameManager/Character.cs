@@ -44,7 +44,7 @@ public abstract class Character : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
-        rb.linearDamping = 0.5f;
+        rb.linearDamping = 1f;
         hp = _maxHp;
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
@@ -57,6 +57,7 @@ public abstract class Character : MonoBehaviour
         HandleMovement();
         HandleJump();
         AirAnimationControl();
+        KnockBackControl();
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -100,7 +101,7 @@ public abstract class Character : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         hp -= damage;
-        if (damage > 10f) 
+        if (damage > 5f) 
         {
             isGrounded = false;
             Animator.SetTrigger("KnockBack1");
@@ -124,6 +125,7 @@ public abstract class Character : MonoBehaviour
             isGrounded = true;
             currentJumpCount = 0;
             Animator.SetTrigger("Landing");
+            Animator.ResetTrigger("Jump");
 
             if (isTakingDamage)
             {
@@ -168,7 +170,23 @@ public abstract class Character : MonoBehaviour
 
     void KnockBackControl()
     {
-        
+        if (isTakingDamage)
+        {
+            Animator.SetBool("Down", true);
+        }
+        else
+        {
+            Animator.SetBool("Down", false);
+        }
+
+        if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Down") && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        {
+            Animator.speed = 0f;
+        }
+        else
+        {
+            Animator.speed = 1f;
+        }
     }
 
     protected void HandleMovement()
@@ -224,6 +242,15 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    public float GetDownTimeMultiplier()
+    {
+        return Mathf.Sqrt(1f + (0.02f * (_maxHp - hp)));
+    }
+
+    public float GetHitKnockbackMultiplier()
+    {
+        return Mathf.Sqrt(1f + (0.01f * (_maxHp - hp)));
+    }
 
     public AttackTypes GetAttackState()
     {

@@ -7,7 +7,6 @@ public class WeakAttack : Attack
 {
     public int attackCount = 0;
     List<HitBox> _hitBox;
-    float[] _damages = new float[3];
     Vector2[] _knockbacks = new Vector2[3];
     float[] _occurTimes = new float[3];
     float[] _durations = new float[3];
@@ -25,7 +24,6 @@ public class WeakAttack : Attack
         _attackName = config.AttackName;
         for (int i = 0; i < 3; i++)
         {
-            _damages[i] = config.Damage[i];
             _knockbacks[i] = config.Knockback[i];
         }
         _hitBox = hitBox;
@@ -36,9 +34,10 @@ public class WeakAttack : Attack
         _attackInput = attackInput;
         for (int i = 0; i < 3; i++)
         {
-            _hitBox[i].Owner = owner;
+            _hitBox[i].Owner = _owner;
             _hitBox[i].AttackType = _attackTypes[i];
-            _hitBox[i].Damage = _damages[i];
+            _hitBox[i].Damage = config.Damage[i];
+            _hitBox[i].DownTime = config.DownTime[i];
             _hitBox[i].gameObject.SetActive(false);
         }
 
