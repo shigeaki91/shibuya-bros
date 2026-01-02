@@ -43,6 +43,7 @@ public class SideSmash : Attack
     private System.Collections.IEnumerator SideSmashCoroutine()
     {
         _owner.rb.linearVelocityX = 0f;
+        _owner.Animator.SetTrigger("SideSmash");
         yield return new WaitForSeconds(_occurTime);
         _hitBox.gameObject.SetActive(true);
         float elapsed = 0f;

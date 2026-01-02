@@ -37,13 +37,14 @@ public class DashAttack : Attack
         localPos.x = Mathf.Abs(localPos.x) * _direction;
         _hitBox.transform.localPosition = localPos;
 
-        dashSpeed = _owner.speed * 3f;
+        dashSpeed = _owner.speed * 3f; // 初速設定
         
         _owner.StartCoroutine(DashAttackCoroutine(_direction));
     }
 
     private System.Collections.IEnumerator DashAttackCoroutine(float direction)
     {
+        _owner.Animator.SetTrigger("DashAttack");
         yield return new WaitForSeconds(_occurTime);
         float elapsed = 0f;
         _hitBox.gameObject.SetActive(true);
@@ -51,7 +52,7 @@ public class DashAttack : Attack
         {
             _owner.Move(direction, dashSpeed);
             elapsed += Time.deltaTime;
-            dashSpeed -= (_owner.speed * 3f / _duration) * Time.deltaTime;
+            dashSpeed -= _owner.speed * 2f / _duration * Time.deltaTime; // 最終的に元のスピードになるように。
             yield return null;
         }
         _hitBox.gameObject.SetActive(false);

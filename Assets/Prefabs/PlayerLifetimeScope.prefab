@@ -48,6 +48,7 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _matchScope: {fileID: 0}
   _playerID: 1
   _playerPrefab: {fileID: 4889456766472064049, guid: 8d2ca7d9d17d9bb4c86d5a90b42babe8, type: 3}
   _player: {fileID: 0}

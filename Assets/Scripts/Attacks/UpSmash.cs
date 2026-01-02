@@ -33,6 +33,7 @@ public class UpSmash : Attack
     {
         base.Activate();
         _hitBox.Knockback = _knockback;
+        _hitBox.Knockback.x = _knockback.x * _direction;
         Vector2 localPos = _hitBox.transform.localPosition;
         localPos.x = Mathf.Abs(localPos.x) * _direction;
         _hitBox.transform.localPosition = localPos;
@@ -42,6 +43,7 @@ public class UpSmash : Attack
 
     private System.Collections.IEnumerator UpSmashCoroutine()
     {
+        _owner.Animator.SetTrigger("UpSmash");
         _owner.rb.linearVelocityX = 0f;
         yield return new WaitForSeconds(_occurTime);
         _hitBox.gameObject.SetActive(true);

@@ -29,14 +29,16 @@ public abstract class Attack
     {
         _direction = _owner.sr.flipX ? -1f : 1f;
         isActive = true;
-        _owner.canMove = false;
+        _owner.isAttacking = true;
+        _owner.Animator.SetBool("Idling", false);
         Debug.Log($"{_attackName}");
     }
 
     public virtual void Deactivate()
     {
         isActive = false;
-        _owner.canMove = true;
+        _owner.isAttacking = false;
+        _owner.Animator.SetBool("Idling", true);
         Debug.Log($"{_attackName}" + " ended");
     }
 }

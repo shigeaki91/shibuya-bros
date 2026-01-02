@@ -42,9 +42,10 @@ public class AirNeutral : Attack
 
     private System.Collections.IEnumerator AirNeutralCoroutine()
     {
+        _owner.Animator.SetTrigger("AirNeutral");
         yield return new WaitForSeconds(_occurTime);
         float elapsed = 0f;
-        _hitBox.gameObject.SetActive(true);
+        if (!_owner.isGrounded) _hitBox.gameObject.SetActive(true);
         while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;

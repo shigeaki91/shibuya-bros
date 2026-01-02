@@ -18,7 +18,7 @@ public class HitBox : MonoBehaviour
         if (target != null && target != Owner && target.isInvincible == false)
         {
             hit = true;
-            target.canMove = false;
+            target.isTakingDamage = true;
             //target.isInvincible = true;
             target.StartCoroutine(DownCoroutine(target, downTime));
             target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
@@ -31,7 +31,7 @@ public class HitBox : MonoBehaviour
     private System.Collections.IEnumerator DownCoroutine(Character target, float downTime)
     {
         yield return new WaitForSeconds(downTime);
-        target.canMove = true;
+        target.isTakingDamage = false;
     }
     private System.Collections.IEnumerator InvincibilityCoroutine(Character target, float duration)
     {

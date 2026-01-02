@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e812f7c09afe462429986ee13556f76b, type: 3}
   m_Name: AirNeutralConfig
   m_EditorClassIdentifier: 
+  _attackName: Air Neutral
   _damage: 4.6
   _knockback: {x: 3, y: 2}
-  _occurTime: 0.1
+  _occurTime: 0.05
   _duration: 0.6
-  _endingLag: 0.15
+  _endingLag: 0.05

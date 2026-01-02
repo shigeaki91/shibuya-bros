@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251bd11d88bef254182dba1496a7370e, type: 3}
   m_Name: AirSideConfig
   m_EditorClassIdentifier: 
+  _attackName: Air Side
   _damage: 6.8
   _knockback: {x: 4, y: 2}
-  _occurTime: 0.2
-  _duration: 0.2
-  _endingLag: 0.3
+  _occurTime: 0.22
+  _duration: 0.12
+  _endingLag: 0.25

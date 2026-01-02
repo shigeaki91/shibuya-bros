@@ -42,9 +42,10 @@ public class AirUp : Attack
 
     private System.Collections.IEnumerator AirUpCoroutine()
     {
+        _owner.Animator.SetTrigger("AirUp");
         yield return new WaitForSeconds(_occurTime);
         float elapsed = 0f;
-        _hitBox.gameObject.SetActive(true);
+        if (!_owner.isGrounded) _hitBox.gameObject.SetActive(true);
         while (elapsed < _duration)
         {
             elapsed += Time.deltaTime;

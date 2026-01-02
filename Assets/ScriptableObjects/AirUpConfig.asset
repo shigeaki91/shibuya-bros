@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b22adec2802446e4faf62372f413f3b3, type: 3}
   m_Name: AirUpConfig
   m_EditorClassIdentifier: 
+  _attackName: Air Up
   _damage: 7.2
-  _knockback: {x: 0, y: 6}
-  _occurTime: 0.1
+  _knockback: {x: 2, y: 6}
+  _occurTime: 0.15
   _duration: 0.2
-  _endingLag: 0.4
+  _endingLag: 0.25

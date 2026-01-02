@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ac50d13da00bf54faac617fc47b41e7, type: 3}
   m_Name: WeakAttackConfig
   m_EditorClassIdentifier: 
+  _attackName: Weak Attack
   _damage:
   - 2
   - 2.4
@@ -20,6 +21,15 @@ MonoBehaviour:
   - {x: 0.2, y: 2}
   - {x: 0.4, y: 2}
   - {x: 4, y: 2}
-  _occurTime: 0.05
-  _duration: 0.1
-  _endingLag: 0.2
+  _occurTime:
+  - 0.1
+  - 0.1
+  - 0.18
+  _duration:
+  - 0.07
+  - 0.07
+  - 0.08
+  _endingLag:
+  - 0.1
+  - 0.1
+  - 0.15

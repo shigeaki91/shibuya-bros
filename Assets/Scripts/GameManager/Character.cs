@@ -10,36 +10,42 @@ using UnityEngine.Scripting.APIUpdating;
 public abstract class Character : MonoBehaviour
 {
     public string characterName;
-    public float speed = 5f;
+    [SerializeField] public float speed = 5f;
     public float moveDir = 0f;
-    public float dashTimer = 0f;
-    public float jumpPower = 10f;
-    public float jumpElapsed = 0f;
-    public float jumpLagTime = 0.1f;
-    public float jumpHoldTimer = 0f;
-    public float jumpHoldTime = 0.2f;
-    public int maxJumpCount = 2;
-    public int currentJumpCount = 0;
-    public float jumpCoolTime = 0.3f;
-    public float jumpCoolTimer = 0f;
+    float dashTimer = 0f;
+    [SerializeField] float jumpPower = 10f;
+    float jumpElapsed = 0f;
+    [SerializeField] float jumpLagTime = 0.1f;
+    float jumpHoldTimer = 0f;
+    [SerializeField] float jumpHoldTime = 0.2f;
+    int maxJumpCount = 2;
+    int currentJumpCount = 0;
+    [SerializeField] float jumpCoolTime = 0.3f;
+    float jumpCoolTimer = 0f;
+    [SerializeField] float _maxHp = 100f;
     public float hp = 100f;
-    public float gravity = 9.81f;
+    [SerializeField] float gravity = 9.81f;
     public int PlayerID;
-    public InputActionAsset _inputAction;
-    public InputActionMap _inputActionMap;
+    [SerializeField] InputActionAsset _inputAction;
+    InputActionMap _inputActionMap;
+    public Animator Animator;
+
 
     public Rigidbody2D rb;
     public SpriteRenderer sr;
     public bool isGrounded = true;
-    public bool canMove = true;
+    public bool isAttacking = false;
+    public bool isTakingDamage = false;
     public bool isInvincible = false;
-    public bool isJumpHolding = false;
+    bool isJumpHolding = false;
     protected void Init(string name)
     {
         characterName = name;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        Animator = GetComponent<Animator>();
         rb.linearDamping = 0.5f;
+        hp = _maxHp;
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
@@ -50,6 +56,7 @@ public abstract class Character : MonoBehaviour
         ApplyGravity();
         HandleMovement();
         HandleJump();
+        AirAnimationControl();
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -59,14 +66,30 @@ public abstract class Character : MonoBehaviour
 
     public virtual void Jump()
     {
-        if (currentJumpCount < maxJumpCount && jumpCoolTimer == 0f && canMove)
+        if (CanJump())
         {
             jumpCoolTimer += Time.deltaTime;
             jumpHoldTimer += Time.deltaTime;
             isJumpHolding = true;
             isGrounded = false;
             currentJumpCount++;
+            Animator.SetTrigger("Jump");
         }
+    }
+
+    public bool CanMove()
+    {
+        return !isAttacking && !isTakingDamage || !isGrounded;
+    }
+    
+    public bool CanJump()
+    {
+        return !isAttacking && !isTakingDamage && currentJumpCount < maxJumpCount && jumpCoolTimer == 0f;
+    }
+
+    public bool CanAttack()
+    {
+        return !isAttacking && !isTakingDamage;
     }
 
     public void SetPlayerID(int id)
@@ -77,6 +100,12 @@ public abstract class Character : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         hp -= damage;
+        if (damage > 10f) 
+        {
+            isGrounded = false;
+            Animator.SetTrigger("KnockBack1");
+        }
+        else Animator.SetTrigger("KnockBack2");
         Debug.Log(characterName + " took " + damage + " damage! ");
     }
 
@@ -90,16 +119,22 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > 0.5f)
+        if (collision.contacts[0].normal.y > 0.5f && collision.gameObject.CompareTag("Ground") && !isGrounded)
         {
             isGrounded = true;
             currentJumpCount = 0;
+            Animator.SetTrigger("Landing");
+
+            if (isTakingDamage)
+            {
+                rb.linearVelocityY = rb.linearVelocityY * (-0.5f);
+            }
         }
     }
 
     protected virtual void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.contacts.Length > 0 && collision.contacts[0].normal.y > 0.5f)
+        if (collision.contacts.Length > 0 && collision.contacts[0].normal.y > 0.5f && collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
             if (currentJumpCount == 0)
@@ -109,23 +144,50 @@ public abstract class Character : MonoBehaviour
         }
     }
 
+    void AirAnimationControl()
+    {
+        if (!isGrounded)
+        {
+            if (rb.linearVelocity.y > 0f)
+            {
+                Animator.SetBool("JumpUp", true);
+                Animator.SetBool("JumpDown", false);
+            }
+            else if (rb.linearVelocity.y < 0f)
+            {
+                Animator.SetBool("JumpUp", false);
+                Animator.SetBool("JumpDown", true);
+            }
+        }
+        else
+        {
+            Animator.SetBool("JumpUp", false);
+            Animator.SetBool("JumpDown", false);
+        }
+    }
+
+    void KnockBackControl()
+    {
+        
+    }
+
     protected void HandleMovement()
     {
         if (moveDir < 0f) moveDir += Time.deltaTime * 5f;
         else if (moveDir > 0f) moveDir -= Time.deltaTime * 5f;
         if (Mathf.Abs(moveDir) < 0.1f) moveDir = 0f;
 
-        moveDir = _inputActionMap.FindAction("Move").ReadValue<float>();
+        if (CanMove()) moveDir = _inputActionMap.FindAction("Move").ReadValue<float>() == 0 ? moveDir : _inputActionMap.FindAction("Move").ReadValue<float>();
         if (moveDir < 0f) sr.flipX = true;
         else if (moveDir > 0f) sr.flipX = false;
 
         dashTimer += Time.deltaTime;
         if (Mathf.Abs(moveDir) < 1f) dashTimer = 0f;
 
-        if (canMove)
-        {
-            Move(moveDir, speed);
-        }
+        if (!isTakingDamage) Move(moveDir, speed);
+
+        Animator.SetBool("Running", Mathf.Abs(moveDir) == 1f);
+        Animator.SetBool("Idling", Mathf.Abs(moveDir) < 1f);
     }
 
     protected void HandleJump()
@@ -165,7 +227,7 @@ public abstract class Character : MonoBehaviour
 
     public AttackTypes GetAttackState()
     {
-        if (canMove)
+        if (CanAttack())
         {
             if (isGrounded) //地上
             {
@@ -197,24 +259,22 @@ public abstract class Character : MonoBehaviour
                 }
             }
             else //空中
-            {
-                if (Mathf.Abs(moveDir) < 1f)
+            {   
+                if (_inputActionMap.FindAction("Down").IsPressed())
                 {
-                    if ((PlayerID == 1 && Input.GetKey(KeyCode.W)) || (PlayerID == 2 && Input.GetKey(KeyCode.UpArrow)))
-                    {
-                        return AttackTypes.AirUp;
-                    }
-                    
-                    if ((PlayerID == 1 && Input.GetKey(KeyCode.S)) || (PlayerID == 2 && Input.GetKey(KeyCode.DownArrow)))
-                    {
-                        return AttackTypes.AirDown;
-                    }
+                    return AttackTypes.AirDown;
+                }
+                else if (_inputActionMap.FindAction("Up").IsPressed())
+                {
+                    return AttackTypes.AirUp;
+                }
+                else if (Mathf.Abs(moveDir) < 1f)
+                {
                     return AttackTypes.AirNeutral;
                 }
                 else if (Mathf.Abs(moveDir) == 1f)
                 {
                     return AttackTypes.AirSide;
-                    
                 }
                 else
                 {

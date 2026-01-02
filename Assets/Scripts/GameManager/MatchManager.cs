@@ -4,7 +4,7 @@ using UnityEngine;
 public class MatchManager : MonoBehaviour
 {
     public StageManager stage;
-    public List<Character> characters;
+    public Character[] characters;
     public float timelimit = 180f;
 
     public float timer;
@@ -12,6 +12,7 @@ public class MatchManager : MonoBehaviour
     void Start()
     {
         timer = timelimit;
+        characters = FindObjectsByType<Character>(FindObjectsSortMode.None);
     }
 
     void Update()
@@ -32,7 +33,7 @@ public class MatchManager : MonoBehaviour
 
     void CheckVictory()
     {
-        List<Character> alive = characters.FindAll(c => c.hp > 0);
+        List<Character> alive = new List<Character>(System.Array.FindAll(characters, c => c.hp > 0));
 
         if (alive.Count == 1)
         {

@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05679953530fd3e4db3eccaa7444640a, type: 3}
   m_Name: DashAttackConfig
   m_EditorClassIdentifier: 
+  _attackName: Dash Attack
   _damage: 6.4
   _knockback: {x: 2, y: 4}
   _occurTime: 0.15
-  _duration: 0.6
-  _endingLag: 0.15
+  _duration: 0.3
+  _endingLag: 0.05

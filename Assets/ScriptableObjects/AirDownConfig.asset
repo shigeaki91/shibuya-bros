@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7be01f60b9bca0448c88f674f241315, type: 3}
   m_Name: AirDownConfig
   m_EditorClassIdentifier: 
+  _attackName: Air Down
   _damage: 8.2
   _knockback: {x: 0, y: -5}
-  _occurTime: 0.2
-  _duration: 0.2
-  _endingLag: 0.4
+  _occurTime: 0.35
+  _duration: 0.12
+  _endingLag: 0.2

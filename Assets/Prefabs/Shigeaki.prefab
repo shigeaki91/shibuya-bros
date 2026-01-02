@@ -776,34 +776,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterName: 
-  speed: 5
+  speed: 7
   moveDir: 0
-  dashTimer: 0
   jumpPower: 7
-  jumpElapsed: 0
   jumpLagTime: 0.1
-  jumpHoldTimer: 0
   jumpHoldTime: 0.2
-  maxJumpCount: 2
-  currentJumpCount: 0
   jumpCoolTime: 0.3
-  jumpCoolTimer: 0
+  _maxHp: 100
   hp: 100
   gravity: 9.81
   PlayerID: 1
   _inputAction: {fileID: -944628639613478452, guid: 044df22f76e494c41ad551820f487aba, type: 3}
-  _inputActionMap:
-    m_Name: Input
-    m_Id: cf4808d8-cfbd-498c-b014-b4589b8adc76
-    m_Asset: {fileID: 0}
-    m_Actions: []
-    m_Bindings: []
+  Animator: {fileID: 0}
   rb: {fileID: 0}
   sr: {fileID: 0}
   isGrounded: 1
-  canMove: 1
+  isAttacking: 0
+  isTakingDamage: 0
   isInvincible: 0
-  isJumpHolding: 0
 --- !u!95 &2667054519745108552
 Animator:
   serializedVersion: 7
@@ -814,7 +804,7 @@ Animator:
   m_GameObject: {fileID: 4889456766472064049}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5f1e9183017a89840bdea61985ecc920, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
