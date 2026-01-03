@@ -1,0 +1,91 @@
+{
+    "version": 1,
+    "name": "SelectInput",
+    "maps": [
+        {
+            "name": "Title",
+            "id": "c70e16fb-fdc1-46e2-904a-f65ac7d65b14",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "c1759c6b-2e4d-4713-8da0-59efc3488b86",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fd43ceb3-54cc-40ef-9e7a-ead69a7ff2ec",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player1",
+            "id": "5d057bd2-dcef-4d71-9827-3e764a91c030",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "081142a5-dcd1-4cbf-8276-77420de6e092",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "59cd75d7-95ba-47ee-9aad-728e324136a3",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Player2",
+            "id": "a69736da-dc1e-486d-986f-b61dcf9f3801",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "38630d84-cd04-4a06-b9b5-fea4b33199b7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bd41ab87-f465-47d2-80e6-0567faeb9097",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
