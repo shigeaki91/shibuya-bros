@@ -18,8 +18,8 @@ MonoBehaviour:
   - 2.4
   - 3.6
   _knockback:
-  - {x: 0.2, y: 2}
-  - {x: 0.4, y: 2}
+  - {x: 0.4, y: 0.4}
+  - {x: 0.4, y: 0.4}
   - {x: 4, y: 2}
   _occurTime:
   - 0.1
@@ -33,3 +33,7 @@ MonoBehaviour:
   - 0.1
   - 0.1
   - 0.15
+  _downTime:
+  - 0.15
+  - 0.15
+  - 0.35

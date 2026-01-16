@@ -9,7 +9,7 @@ using UnityEngine.Scripting.APIUpdating;
 
 public abstract class Character : MonoBehaviour
 {
-    public string characterName;
+    public CharacterNames characterName;
     [SerializeField] public float speed = 5f;
     public float moveDir = 0f;
     float dashTimer = 0f;
@@ -38,7 +38,7 @@ public abstract class Character : MonoBehaviour
     public bool isTakingDamage = false;
     public bool isInvincible = false;
     bool isJumpHolding = false;
-    protected void Init(string name)
+    protected void Init(CharacterNames name)
     {
         characterName = name;
         rb = GetComponent<Rigidbody2D>();
@@ -75,6 +75,7 @@ public abstract class Character : MonoBehaviour
             isGrounded = false;
             currentJumpCount++;
             Animator.SetTrigger("Jump");
+            Animator.ResetTrigger("Landing");
         }
     }
 
@@ -101,11 +102,10 @@ public abstract class Character : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         hp -= damage;
-        if (damage > 5f) 
-        {
-            isGrounded = false;
-            Animator.SetTrigger("KnockBack1");
-        }
+        isTakingDamage = true;
+        isGrounded = false;
+        Animator.ResetTrigger("Landing");
+        if (damage > 5f) Animator.SetTrigger("KnockBack1");
         else Animator.SetTrigger("KnockBack2");
         Debug.Log(characterName + " took " + damage + " damage! ");
     }
@@ -120,17 +120,24 @@ public abstract class Character : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.contacts[0].normal.y > 0.5f && collision.gameObject.CompareTag("Ground") && !isGrounded)
+        if (collision.contacts[0].normal.y > 0.5f && collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
             currentJumpCount = 0;
             Animator.SetTrigger("Landing");
             Animator.ResetTrigger("Jump");
 
             if (isTakingDamage)
             {
-                rb.linearVelocityY = rb.linearVelocityY * (-0.5f);
+                rb.linearVelocityY = rb.linearVelocityY * -0.5f;
             }
+        }
+    }
+
+    protected virtual void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.contacts[0].normal.y > 0.5f && collision.gameObject.CompareTag("Ground") && !isGrounded && rb.linearVelocityY <= 0f)
+        {
+            isGrounded = true;
         }
     }
 
@@ -165,6 +172,7 @@ public abstract class Character : MonoBehaviour
         {
             Animator.SetBool("JumpUp", false);
             Animator.SetBool("JumpDown", false);
+            Animator.SetTrigger("Landing");
         }
     }
 

@@ -4,7 +4,7 @@ public class Shigeaki : Character
 {
     void Start()
     {
-        Init("Shigeaki");
+        Init(CharacterNames.Shigeaki);
     }
     protected override void Update()
     {
