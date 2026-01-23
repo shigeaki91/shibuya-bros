@@ -45,4 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bgmEntry: []
-  _sfxEntry: []
+  _sfxEntry:
+  - Type: 0
+    Clip: {fileID: 8300000, guid: 18d6651c22898c847a19c20169a21104, type: 3}
+  - Type: 1
+    Clip: {fileID: 8300000, guid: 65d130f2ff7aca9418c5d9b7ab553ee2, type: 3}
+  - Type: 2
+    Clip: {fileID: 8300000, guid: 64b4d89ee733760428c6f1f460e7f504, type: 3}
+  - Type: 3
+    Clip: {fileID: 8300000, guid: a5b2fc804a566e745b14c99e5da4d032, type: 3}

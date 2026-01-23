@@ -76,6 +76,7 @@ public abstract class Character : MonoBehaviour
             currentJumpCount++;
             Animator.SetTrigger("Jump");
             Animator.ResetTrigger("Landing");
+            AudioManager.Instance.PlaySFX(SFXtypes.Jump);
         }
     }
 
@@ -105,8 +106,16 @@ public abstract class Character : MonoBehaviour
         isTakingDamage = true;
         isGrounded = false;
         Animator.ResetTrigger("Landing");
-        if (damage > 5f) Animator.SetTrigger("KnockBack1");
-        else Animator.SetTrigger("KnockBack2");
+        if (damage > 5f) 
+        {
+            Animator.SetTrigger("KnockBack1");
+            AudioManager.Instance.PlaySFX(SFXtypes.HitHeavy);
+        }
+        else 
+        {
+            Animator.SetTrigger("KnockBack2");
+            AudioManager.Instance.PlaySFX(SFXtypes.HitLight);
+        }
         Debug.Log(characterName + " took " + damage + " damage! ");
     }
 

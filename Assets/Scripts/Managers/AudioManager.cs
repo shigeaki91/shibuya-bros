@@ -99,6 +99,8 @@ public enum SFXtypes
 {
     Jump,
     Attack,
+    HitLight,
+    HitHeavy,
     Run,
     Damage
 }

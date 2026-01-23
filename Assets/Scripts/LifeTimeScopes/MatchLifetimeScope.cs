@@ -8,6 +8,8 @@ public class MatchLifeTimeScope : LifetimeScope
     int _playerCount = 2;
     int _id;
     public int Id => _id;
+    Vector3 _spawnPoint;
+    public Vector3 SpawnPoint => _spawnPoint;
     protected override void Configure(IContainerBuilder builder)
     {
         builder.RegisterInstance(_playerScopePrefab);
@@ -19,6 +21,7 @@ public class MatchLifeTimeScope : LifetimeScope
         for (int i = 1; i <= _playerCount; i++)
         {
             _id = i;
+            _spawnPoint = new Vector3(6f * (i*2 - 3), 1.834587f, 0f);
             var scope = Instantiate(_playerScopePrefab, transform);
             Debug.Log(scope.name);
             scope.name = $"PlayerScope_{i}";

@@ -96,7 +96,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &234252228168993005
 GameObject:
@@ -194,7 +194,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &2104111998062784020
 GameObject:
@@ -292,7 +292,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.35
+  DownTime: 0.35
   hit: 0
 --- !u!1 &3940044914605476324
 GameObject:
@@ -390,7 +390,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &4068862057116459131
 GameObject:
@@ -488,7 +488,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &4157782406208067679
 GameObject:
@@ -586,7 +586,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &4889456766472064049
 GameObject:
@@ -619,7 +619,7 @@ Transform:
   m_GameObject: {fileID: 4889456766472064049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35, y: -0.84, z: 0}
+  m_LocalPosition: {x: 0.35, y: 13.7, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -678,7 +678,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 4575704566612458097, guid: 3f53d98340c239743a030ac4e6b9bc11, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -775,7 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b35f221030b6a04692a3a885288c648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: 0
   speed: 7
   moveDir: 0
   jumpPower: 7
@@ -942,7 +942,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.2
+  DownTime: 0.35
   hit: 0
 --- !u!1 &7083792704291998230
 GameObject:
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.35
+  DownTime: 0.35
   hit: 0
 --- !u!1 &7379660462471435384
 GameObject:
@@ -1138,7 +1138,7 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.35
+  DownTime: 0.35
   hit: 0
 --- !u!1 &9186698860661255832
 GameObject:
@@ -1236,5 +1236,5 @@ MonoBehaviour:
   Damage: 0
   Knockback: {x: 0, y: 0}
   InvincibilityDuration: 0.05
-  downTime: 0.35
+  DownTime: 0.35
   hit: 0

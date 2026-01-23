@@ -8,10 +8,12 @@ using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using System.Text.RegularExpressions;
 
+
 public class PlayerLifetimeScope : LifetimeScope
 {
     [SerializeField] MatchLifeTimeScope _matchScope;
     public int _playerID;
+    Vector3 _spawnPoint;
     [SerializeField] GameObject _playerPrefab;
     public Character _player;
     public Dictionary<AttackTypes, HitBox> _hitBoxes;
@@ -77,7 +79,8 @@ public class PlayerLifetimeScope : LifetimeScope
     {
         _matchScope = GetComponentInParent<MatchLifeTimeScope>();
         _playerID = _matchScope.Id;
-        var playerGo = Instantiate(_playerPrefab, transform);
+        _spawnPoint = _matchScope.SpawnPoint;
+        var playerGo = Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity, transform);
         _player = playerGo.GetComponent<Character>();
         _player.PlayerID = _playerID;
         _player.name = $"Player_{_playerID}";
