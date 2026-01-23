@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Extensions;
 using Cysharp.Threading.Tasks;
-using System.Threading;
 using R3;
 using UnityEngine.SceneManagement;
 

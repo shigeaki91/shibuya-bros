@@ -1,11 +1,5 @@
-using System;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Scripting.APIUpdating;
 
 public abstract class Character : MonoBehaviour
 {

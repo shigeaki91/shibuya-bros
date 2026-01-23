@@ -1,8 +1,5 @@
 using UnityEngine;
-using R3;
-using LitMotion;
 using Unity.Cinemachine;
-using System;
 
 public class GroupTargetSetting : MonoBehaviour
 {
