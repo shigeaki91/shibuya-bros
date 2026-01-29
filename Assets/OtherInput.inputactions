@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "name": "SelectInput",
+    "name": "OtherInput",
     "maps": [
         {
             "name": "Title",
@@ -31,13 +31,13 @@
             ]
         },
         {
-            "name": "Player1",
-            "id": "5d057bd2-dcef-4d71-9827-3e764a91c030",
+            "name": "CharaSelect",
+            "id": "f0e86da2-3b21-402b-b858-77ca2583656e",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Back",
                     "type": "Button",
-                    "id": "081142a5-dcd1-4cbf-8276-77420de6e092",
+                    "id": "8e226d8f-2b23-490c-8d66-b69293c6d3cc",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -47,40 +47,12 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "59cd75d7-95ba-47ee-9aad-728e324136a3",
-                    "path": "",
+                    "id": "912d1834-4921-4f2c-b345-f5ae31a3d18b",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Player2",
-            "id": "a69736da-dc1e-486d-986f-b61dcf9f3801",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "38630d84-cd04-4a06-b9b5-fea4b33199b7",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "bd41ab87-f465-47d2-80e6-0567faeb9097",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "action": "Back",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -323,34 +323,6 @@
                     "isPartOfComposite": false
                 }
             ]
-        },
-        {
-            "name": "Select",
-            "id": "4a143646-37f5-45f2-ab3e-6ae89fde8420",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "2055feaa-78f2-4361-9b19-3e29a7d85bf1",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "fcceeb9a-a5a0-42d1-a4f5-a989832f14fe",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
         }
     ],
     "controlSchemes": []
