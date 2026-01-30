@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 128f05272c353a8459a2fb55c02142a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _duration: 1
+  _duration: 0.3
   _fadeState: 0
 --- !u!225 &3248362
 CanvasGroup:
@@ -406,8 +406,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -523, y: 189.93}
-  m_SizeDelta: {x: 1595.5, y: 69.858}
+  m_AnchoredPosition: {x: -532, y: 205.11}
+  m_SizeDelta: {x: 1595.5, y: 39.615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &123860785
 MonoBehaviour:
@@ -980,7 +980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8cb9b9247f7ff47ad59d03fd966a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _selectedIndex: 0
   _canvas: {fileID: 842357630}
   _charaSelectButtonPrefab: {fileID: 4059657093133530760, guid: 78a010fcc9340bd42bccbd5be737e821, type: 3}
   _charaSelectButtons: []
@@ -999,7 +998,7 @@ MonoBehaviour:
     CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
   - CharacterName: 7
     CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
-  _buttonPosition:
+  _buttonPositions:
   - {x: -195, y: 105}
   - {x: -65, y: 105}
   - {x: 65, y: 105}
@@ -1007,6 +1006,11 @@ MonoBehaviour:
   - {x: -130, y: 0}
   - {x: 0, y: 0}
   - {x: 130, y: 0}
+  _selectedCharacterImagePositions:
+  - {x: -175, y: -175}
+  - {x: 175, y: -175}
+  _readyToFightButton: {fileID: 0}
+  _readyToFightButtonPrefab: {fileID: 2070874819922358122, guid: 00a32c3317a4bde49b22af3427cf67a4, type: 3}
   _inputActionAsset: {fileID: -944628639613478452, guid: ea76b0911ad87254c89f8e5e8433dfed, type: 3}
   _fadeController: {fileID: 3248361}
 --- !u!1 &1251408620

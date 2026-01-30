@@ -4,6 +4,9 @@ using R3;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using UnityEngine.UI;
+using LitMotion;
+using System.Threading;
 
 [System.Serializable]
 struct CharaImageEntry
@@ -13,19 +16,25 @@ struct CharaImageEntry
 }
 public class SelectManager : MonoBehaviour
 {
-    public int _selectedIndex = 0;
+    public ReactiveProperty<int> _selectedIndex = new ReactiveProperty<int>(0);
     [SerializeField] Canvas _canvas;
     [SerializeField] GameObject _charaSelectButtonPrefab;
     [SerializeField] List<CharaSelectButton> _charaSelectButtons;
     [SerializeField] CharaImageEntry[] _charaImageEntries;
     Dictionary<CharacterNames, Sprite> _charaImageDict;
-    [SerializeField] List<Vector2> _buttonPosition;
+    [SerializeField] List<Vector2> _buttonPositions;
+    Image[] _selectedCharacterImages = new Image[2];
+    
+    [SerializeField] List<Vector2> _selectedCharacterImagePositions;
+    [SerializeField] ReadyToFight _readyToFightButton;
+    [SerializeField] GameObject _readyToFightButtonPrefab;
 
     [SerializeField] InputActionAsset _inputActionAsset;
     InputActionMap _inputActionMap;
     InputAction _backAction;
     SelectButton _backButton;
     [SerializeField] FadeController _fadeController;
+    CancellationTokenSource _ct = new CancellationTokenSource();
 
     void Awake()
     {
@@ -37,17 +46,15 @@ public class SelectManager : MonoBehaviour
             _charaImageDict[entry.CharacterName] = entry.CharacterImage;
 
             var button = Instantiate(_charaSelectButtonPrefab, _canvas.transform).GetComponent<CharaSelectButton>();
-
             _charaSelectButtons.Add(button);
-            button._characterName = entry.CharacterName;
-            button._characterImage = entry.CharacterImage;
-            button.transform.localPosition = _buttonPosition[i];
+            button.CharacterName = entry.CharacterName;
+            button.CharacterImage = entry.CharacterImage;
+            button.transform.localPosition = _buttonPositions[i];
             i++;
 
             button.OnClicked.Subscribe(_ =>
             {
-                Debug.Log($"{entry.CharacterName} selected.");
-                _selectedIndex += 1;
+                Select(entry.CharacterName);
             }).AddTo(this);
         }
 
@@ -61,24 +68,89 @@ public class SelectManager : MonoBehaviour
             .Subscribe(_ => OnBackPressed())
             .AddTo(this);
 
-        var chargeObservable = Extensions.ObservableEx.ChargeActionByObservable(_backAction, 2.0f);
+        var chargeObservable = Extensions.ObservableEx.ChargeActionByObservable(_backAction, 1.0f);
         chargeObservable
-            .Where(charge => charge >= 1.0f && _selectedIndex == 0)
-            .Subscribe(_ => GoBackToTitle().Forget())
+            .Where(charge => charge >= 1.0f && _selectedIndex.Value == 0)
+            .Subscribe(_ => 
+            {
+                GoBackToTitle().Forget();
+                
+            })
+            
+            .AddTo(this);
+
+        _selectedIndex
+            .Select(v => v == 2)
+            .DistinctUntilChanged()
+            .Subscribe(isReady =>
+            {
+                if (isReady)
+                {
+                    ReadyToFight(_ct.Token).Forget();
+                }
+                else
+                {
+                    _ct.Cancel();
+                    if (_readyToFightButton != null)
+                    {
+                        Destroy(_readyToFightButton.gameObject);
+                    }
+                }
+            })
             .AddTo(this);
     }
 
+    void Select(CharacterNames characterName)
+    {
+        Debug.Log($"{characterName} selected.");
+        if (_selectedIndex.Value < 2)
+        {
+            DisplaySelectedCharacter(_selectedIndex.Value, characterName);
+            _selectedIndex.Value += 1;
+        }
+    }
+
+    void DisplaySelectedCharacter(int index, CharacterNames characterName)
+    {
+        var selectedCharacterImage = new GameObject("SelectedCharacterImage").AddComponent<Image>();
+        selectedCharacterImage.transform.SetParent(_canvas.transform, false);
+        selectedCharacterImage.transform.localPosition = _selectedCharacterImagePositions[index];
+        selectedCharacterImage.sprite = _charaImageDict[characterName];
+        _selectedCharacterImages[index] = selectedCharacterImage;
+    }
     void OnBackPressed()
     {
         Debug.Log("Go Back One");
-        if (_selectedIndex > 0)
+        if (_selectedIndex.Value > 0)
         {
-            _selectedIndex -= 1;
+            _selectedIndex.Value -= 1;
+            Destroy(_selectedCharacterImages[_selectedIndex.Value].gameObject);
         }
     }
     async UniTask GoBackToTitle()
     {
         await _fadeController.FadeIn();
         SceneManager.LoadScene("Title");
+    }
+
+    async UniTask ReadyToFight(CancellationToken ct = default)
+    {
+        _readyToFightButton = Instantiate(_readyToFightButtonPrefab, _canvas.transform).GetComponent<ReadyToFight>();
+        await LMotion.Create(1400f, 800f, 0.1f)
+                        .Bind(x =>
+                        {
+                            _readyToFightButton.RectTransform.sizeDelta = new Vector2(x, _readyToFightButton.RectTransform.sizeDelta.y);
+                        });
+
+        _readyToFightButton.OnClicked
+            .Subscribe(_ => MatchStart(ct).Forget()).AddTo(this);
+    }
+
+    async UniTask MatchStart(CancellationToken ct = default)
+    {
+
+        Debug.Log("Match Start");
+        //await _fadeController.FadeIn(ct);
+        SceneManager.LoadScene("Match");
     }
 }

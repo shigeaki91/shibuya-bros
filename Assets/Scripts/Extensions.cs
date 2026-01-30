@@ -42,7 +42,8 @@ namespace Extensions
                             .Select(_ => Time.deltaTime)
                             .Scan((acc, delta) => acc + delta)
                             .TakeWhile(elapsed => elapsed < duration)
-                            .Concat(Observable.Return(duration));
+                            .Concat(Observable.Return(duration))
+                            .Select(elapsed => elapsed / duration);
                     }
                     else
                     {

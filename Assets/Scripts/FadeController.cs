@@ -3,6 +3,7 @@ using UnityEngine;
 using LitMotion;
 using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
+using Microsoft.Unity.VisualStudio.Editor;
 
 
 public enum FadeState
@@ -26,6 +27,7 @@ public class FadeController : MonoBehaviour
     public async UniTask FadeIn(CancellationToken ct = default)
     {
         enabled = true;
+        transform.SetAsLastSibling();
         if (_fadeState != FadeState.FadeIn)
         {
             return;
@@ -42,6 +44,7 @@ public class FadeController : MonoBehaviour
     public async UniTask FadeOut(CancellationToken ct = default)
     {
         enabled = true;
+        transform.SetAsLastSibling();
         if (_fadeState != FadeState.FadeOut)
         {
             return;

@@ -4,20 +4,20 @@ using R3;
 
 public class CharaSelectButton : MonoBehaviour
 {
-    public Button _button;
-    public CharacterNames _characterName;
-    public Sprite _characterImage;
+    public Button Button;
+    public CharacterNames CharacterName;
+    public Sprite CharacterImage;
     [SerializeField] Image _image;
     public Observable<Unit> OnClicked { get; private set; }
 
     void Awake()
     {
-        _button = GetComponent<Button>();
-        OnClicked = _button.OnClickAsObservable();
+        Button = GetComponent<Button>();
+        OnClicked = Button.OnClickAsObservable();
     }
 
     void Start()
     {
-        _image.sprite = _characterImage;
+        _image.sprite = CharacterImage;
     }
 }
