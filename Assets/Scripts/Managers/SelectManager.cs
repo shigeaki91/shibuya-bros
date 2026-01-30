@@ -17,7 +17,7 @@ struct CharaImageEntry
 public class SelectManager : MonoBehaviour
 {
     public ReactiveProperty<int> _selectedIndex = new ReactiveProperty<int>(0);
-    [SerializeField] Canvas _canvas;
+    [SerializeField] UIShakeCameraStyle _cameraShake;
     [SerializeField] GameObject _charaSelectButtonPrefab;
     [SerializeField] List<CharaSelectButton> _charaSelectButtons;
     [SerializeField] CharaImageEntry[] _charaImageEntries;
@@ -33,8 +33,10 @@ public class SelectManager : MonoBehaviour
     InputActionMap _inputActionMap;
     InputAction _backAction;
     SelectButton _backButton;
-    [SerializeField] FadeController _fadeController;
+    [SerializeField] FadeController _faderToTitle;
+    [SerializeField] FadeController _faderToMatch;
     CancellationTokenSource _ct = new CancellationTokenSource();
+    [SerializeField] GameObject _buleLight;
 
     void Awake()
     {
@@ -45,7 +47,7 @@ public class SelectManager : MonoBehaviour
         {
             _charaImageDict[entry.CharacterName] = entry.CharacterImage;
 
-            var button = Instantiate(_charaSelectButtonPrefab, _canvas.transform).GetComponent<CharaSelectButton>();
+            var button = Instantiate(_charaSelectButtonPrefab, _cameraShake.transform).GetComponent<CharaSelectButton>();
             _charaSelectButtons.Add(button);
             button.CharacterName = entry.CharacterName;
             button.CharacterImage = entry.CharacterImage;
@@ -100,20 +102,21 @@ public class SelectManager : MonoBehaviour
             .AddTo(this);
     }
 
-    void Select(CharacterNames characterName)
+    async void Select(CharacterNames characterName)
     {
         Debug.Log($"{characterName} selected.");
         if (_selectedIndex.Value < 2)
         {
             DisplaySelectedCharacter(_selectedIndex.Value, characterName);
             _selectedIndex.Value += 1;
+            await _cameraShake.Shake(0.3f, 3f);
         }
     }
 
     void DisplaySelectedCharacter(int index, CharacterNames characterName)
     {
         var selectedCharacterImage = new GameObject("SelectedCharacterImage").AddComponent<Image>();
-        selectedCharacterImage.transform.SetParent(_canvas.transform, false);
+        selectedCharacterImage.transform.SetParent(_cameraShake.transform, false);
         selectedCharacterImage.transform.localPosition = _selectedCharacterImagePositions[index];
         selectedCharacterImage.sprite = _charaImageDict[characterName];
         _selectedCharacterImages[index] = selectedCharacterImage;
@@ -129,13 +132,13 @@ public class SelectManager : MonoBehaviour
     }
     async UniTask GoBackToTitle()
     {
-        await _fadeController.FadeIn();
+        await _faderToTitle.FadeIn();
         SceneManager.LoadScene("Title");
     }
 
     async UniTask ReadyToFight(CancellationToken ct = default)
     {
-        _readyToFightButton = Instantiate(_readyToFightButtonPrefab, _canvas.transform).GetComponent<ReadyToFight>();
+        _readyToFightButton = Instantiate(_readyToFightButtonPrefab, _cameraShake.transform).GetComponent<ReadyToFight>();
         await LMotion.Create(1400f, 800f, 0.1f)
                         .Bind(x =>
                         {
@@ -143,14 +146,31 @@ public class SelectManager : MonoBehaviour
                         });
 
         _readyToFightButton.OnClicked
-            .Subscribe(_ => MatchStart(ct).Forget()).AddTo(this);
+            .Subscribe(_ => 
+            {
+                _cameraShake.Shake(1f, 10f).Forget();
+                BlueLightMove().Forget();
+                MatchStart().Forget();
+            }).AddTo(this);
     }
 
     async UniTask MatchStart(CancellationToken ct = default)
     {
-
         Debug.Log("Match Start");
-        //await _fadeController.FadeIn(ct);
+        await _faderToMatch.FadeIn();
+        Debug.Log("Load Match Scene");
         SceneManager.LoadScene("Match");
+    }
+
+    async UniTask BlueLightMove()
+    {
+        _buleLight.transform.SetAsLastSibling();
+        var rect = _buleLight.GetComponent<RectTransform>();
+        await LMotion.Create(-1000f, 0f, 1f)
+            .Bind(t =>
+            {
+                rect.localPosition = new Vector3(t, rect.localPosition.y, rect.localPosition.z);
+            }
+            );
     }
 }

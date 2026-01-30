@@ -33,12 +33,12 @@ public class FadeController : MonoBehaviour
             return;
         }
         _group.alpha = 0f;
-
+        Debug.Log("Start Fade In");
         await LMotion.Create(0f, 1f, _duration)
-                    .BindToAlpha(_group)
-                    .ToUniTask(ct);
+                    .BindToAlpha(_group);
 
         _group.alpha = 1f;
+        Debug.Log("Fade In Complete");
     }
 
     public async UniTask FadeOut(CancellationToken ct = default)
@@ -56,5 +56,6 @@ public class FadeController : MonoBehaviour
                             .ToUniTask(ct);
 
         _group.alpha = 0f;
+        Debug.Log("Fade Out Complete");
     }
 }
