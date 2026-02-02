@@ -1,7 +1,8 @@
 public enum CharacterNames
 {
+    None,
     Shigeaki,
-    Kimimasa,
+    Takumu,
     Tsuyoshi,
     Toshiatsu,
     Seiyuu,

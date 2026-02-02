@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using R3;
 
 public abstract class Character : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public abstract class Character : MonoBehaviour
     [SerializeField] float jumpCoolTime = 0.3f;
     float jumpCoolTimer = 0f;
     [SerializeField] float _maxHp = 100f;
-    public float hp = 100f;
+    public ReactiveProperty<float> hp = new ReactiveProperty<float>(100f);
     [SerializeField] float gravity = 9.81f;
     public int PlayerID;
     [SerializeField] InputActionAsset _inputAction;
@@ -39,7 +40,7 @@ public abstract class Character : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
         rb.linearDamping = 1f;
-        hp = _maxHp;
+        hp.Value = _maxHp;
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
@@ -96,7 +97,7 @@ public abstract class Character : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
-        hp -= damage;
+        hp.Value -= damage;
         isTakingDamage = true;
         isGrounded = false;
         Animator.ResetTrigger("Landing");
@@ -255,12 +256,12 @@ public abstract class Character : MonoBehaviour
 
     public float GetDownTimeMultiplier()
     {
-        return Mathf.Sqrt(1f + (0.02f * (_maxHp - hp)));
+        return Mathf.Sqrt(1f + (0.02f * (_maxHp - hp.Value)));
     }
 
     public float GetHitKnockbackMultiplier()
     {
-        return Mathf.Sqrt(1f + (0.01f * (_maxHp - hp)));
+        return Mathf.Sqrt(1f + (0.01f * (_maxHp - hp.Value)));
     }
 
     public AttackTypes GetAttackState()
