@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Shigeaki : Character
+public class Shiori : Character
 {
     void Start()
     {
-        Init(CharacterNames.Shigeaki);
+        Init(CharacterNames.Shiori);
     }
     protected override void Update()
     {

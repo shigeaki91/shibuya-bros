@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1474334897184375326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7397945455077526627}
+  - component: {fileID: 4525058573351615225}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7397945455077526627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474334897184375326}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.008572294, y: 0.12435034, z: -0.0023979961}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4525058573351615225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474334897184375326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dc52543736cced4c94893f63870502a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedCharacters: 
+  selectedCharacterPrefabs: []
+  _charaPrefabEntries:
+  - CharacterName: 2
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 48993ea1d331fbb458a8deed5b9f0683, type: 3}
+  - CharacterName: 3
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 5805869db78c39748a12fc7eafbbe86c, type: 3}
+  - CharacterName: 4
+    CharacterPrefab: {fileID: 4889456766472064049, guid: e60506eb1a2c5564ca43d1b88736ced9, type: 3}
+  - CharacterName: 5
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 2a3869793fc34e54aa14db8aef46f54c, type: 3}
+  - CharacterName: 6
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 684dce317caab014fb3a7d8bce6877f7, type: 3}
+  - CharacterName: 7
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 872a8e21447b59644bd89c6e9c83795a, type: 3}
+  - CharacterName: 8
+    CharacterPrefab: {fileID: 4889456766472064049, guid: 7ed37b582970b6b4daa21b45ddaad6dc, type: 3}
+  _matchScopePrefab: {fileID: 6294973239847287047, guid: 7f072b1ac6fcd2e459b75dfb0aca9a5b, type: 3}

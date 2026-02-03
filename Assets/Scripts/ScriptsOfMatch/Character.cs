@@ -1,25 +1,26 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using R3;
+using Extensions;
 
 public abstract class Character : MonoBehaviour
 {
     public CharacterNames characterName;
-    [SerializeField] public float speed = 5f;
-    public float moveDir = 0f;
+    public float speed = 7f;
+    float moveDir = 0f;
     float dashTimer = 0f;
-    [SerializeField] float jumpPower = 10f;
+    float jumpPower = 7f;
     float jumpElapsed = 0f;
-    [SerializeField] float jumpLagTime = 0.1f;
+    float jumpLagTime = 0.1f;
     float jumpHoldTimer = 0f;
-    [SerializeField] float jumpHoldTime = 0.2f;
+    float jumpHoldTime = 0.2f;
     int maxJumpCount = 2;
     int currentJumpCount = 0;
-    [SerializeField] float jumpCoolTime = 0.3f;
+    float jumpCoolTime = 0.3f;
     float jumpCoolTimer = 0f;
-    [SerializeField] float _maxHp = 100f;
+    float _maxHp = 100f;
     public ReactiveProperty<float> hp = new ReactiveProperty<float>(100f);
-    [SerializeField] float gravity = 9.81f;
+    float gravity = 9.81f;
     public int PlayerID;
     [SerializeField] InputActionAsset _inputAction;
     InputActionMap _inputActionMap;
@@ -33,6 +34,10 @@ public abstract class Character : MonoBehaviour
     public bool isTakingDamage = false;
     public bool isInvincible = false;
     bool isJumpHolding = false;
+    float SpecialDurationTimer = 0f;
+    float _specialDurationTime = 15f;
+    float _specialChargeTime = 1.5f;
+    
     protected void Init(CharacterNames name)
     {
         characterName = name;
@@ -44,6 +49,37 @@ public abstract class Character : MonoBehaviour
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
+
+        SAInit();
+    }
+
+    public void SAInit()
+    {
+        Debug.Log("Special Attack Initialized for " + characterName);
+        var specialChargeObservable = ObservableEx.ChargeActionByObservable(_inputActionMap.FindAction("Attack"), _specialChargeTime);
+        specialChargeObservable
+            .Where(_ => CanSpecialAttack())
+            .Select(charge => charge >= 1.0f)
+            .DistinctUntilChanged()
+            .Subscribe(_ =>
+            {
+                SAActivate();
+            }).AddTo(this);
+    }
+
+    public virtual void SAActivate()
+    {
+        SpecialDurationTimer = 0f;
+        isAttacking = true;
+        Animator.SetBool("Idling", false);
+        //Debug.Log($"{characterName} Special Attack Activated!");
+    }
+
+    public virtual void SADeactivate()
+    {
+        isAttacking = false;
+        Animator.SetBool("Idling", true);
+        //Debug.Log($"{characterName} Special Attack ended");
     }
 
     protected virtual void Update()
@@ -53,6 +89,15 @@ public abstract class Character : MonoBehaviour
         HandleJump();
         AirAnimationControl();
         KnockBackControl();
+
+        if (SpecialDurationTimer < _specialDurationTime)
+        {
+            SpecialDurationTimer += Time.deltaTime;
+        }
+        else if (SpecialDurationTimer >= _specialDurationTime && isAttacking)
+        {
+            SpecialDurationTimer = _specialDurationTime;
+        }
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -88,6 +133,11 @@ public abstract class Character : MonoBehaviour
     public bool CanAttack()
     {
         return !isAttacking && !isTakingDamage;
+    }
+
+    public bool CanSpecialAttack()
+    {
+        return !isAttacking && !isTakingDamage && SpecialDurationTimer >= _specialDurationTime;
     }
 
     public void SetPlayerID(int id)

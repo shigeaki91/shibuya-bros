@@ -107,6 +107,7 @@ public class SelectManager : MonoBehaviour
         Debug.Log($"{characterName} selected.");
         if (_selectedIndex.Value < 2)
         {
+            GameManager.Instance.SetCharacters(characterName, _selectedIndex.Value);
             DisplaySelectedCharacter(_selectedIndex.Value, characterName);
             _selectedIndex.Value += 1;
             await _cameraShake.Shake(0.3f, 3f);

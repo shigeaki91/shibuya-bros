@@ -12,7 +12,6 @@ public abstract class Attack
     public float _direction;
     public bool isActive;
 
-    protected float timer;
 
     protected Character _owner;
 

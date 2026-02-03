@@ -3,12 +3,12 @@ using Cysharp.Threading.Tasks;
 using LitMotion;
 using R3;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MatchManager : MonoBehaviour
 {
     public StageManager stage;
-    public Character[] characters;
+    public Character[] characters = new Character[2];
     public float timelimit = 180f;
     [SerializeField] TMPro.TMP_Text P1Hp;
     [SerializeField] TMPro.TMP_Text P2Hp;
@@ -18,10 +18,12 @@ public class MatchManager : MonoBehaviour
     void Start()
     {
         timer = timelimit;
-        characters = FindObjectsByType<Character>(FindObjectsSortMode.None);
+        var charas = FindObjectsByType<Character>(FindObjectsSortMode.None);
 
-        foreach (var chara in characters)
+        foreach (var chara in charas)
         {
+            if (chara.PlayerID == 1) characters[0] = chara;
+            else if (chara.PlayerID == 2) characters[1] = chara;
             chara.hp
                 .Subscribe(async hp =>
                 {
@@ -36,7 +38,9 @@ public class MatchManager : MonoBehaviour
                  {
                     Debug.Log(chara.characterName + " is dead!! ");
                     chara.hp.Value = 0f;
+                    SceneManager.LoadScene("Select");
                     Destroy(chara.gameObject);
+                    
                  }).AddTo(this);
         }
     }
@@ -104,8 +108,8 @@ public class MatchManager : MonoBehaviour
     {
         if (characters.Length >= 2)
         {
-            P1Hp.text = $"{characters[0].hp.Value} %";
-            P2Hp.text = $"{characters[1].hp.Value} %";
+            P1Hp.text = $"{characters[0].hp.Value:F1} %";
+            P2Hp.text = $"{characters[1].hp.Value:F1} %";
         }
     }
 

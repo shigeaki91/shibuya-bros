@@ -76,6 +76,7 @@ public class PlayerLifetimeScope : LifetimeScope
     {
         _matchScope = GetComponentInParent<MatchLifeTimeScope>();
         _playerID = _matchScope.Id;
+        _playerPrefab = _matchScope.CharacterPrefabs[_playerID - 1];
         _spawnPoint = _matchScope.SpawnPoint;
         var playerGo = Instantiate(_playerPrefab, _spawnPoint, Quaternion.identity, transform);
         _player = playerGo.GetComponent<Character>();
