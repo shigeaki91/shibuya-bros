@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 [System.Serializable]
 struct CharaPrefabEntry
@@ -10,6 +11,7 @@ struct CharaPrefabEntry
 }
 public class GameManager : MonoBehaviour
 {
+    public Sprite[] selectedCharacterSprites = new Sprite[2];
     public CharacterNames[] selectedCharacters = new CharacterNames[2];
     public GameObject[] selectedCharacterPrefabs = new GameObject[2];
     public static GameManager Instance { get; private set; }
@@ -35,8 +37,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetCharacters(CharacterNames character, int index)
+    public void SetCharacters(Sprite charaSprite, CharacterNames character, int index)
     {
+        selectedCharacterSprites[index] = charaSprite;
         selectedCharacters[index] = character;
         selectedCharacterPrefabs[index] = _charaPrefabDict[character];
     }
@@ -70,6 +73,7 @@ public class GameManager : MonoBehaviour
 
     void OnEnterSelectScene(Scene scene)
     {
+        selectedCharacterSprites = new Sprite[2];
         selectedCharacters = new CharacterNames[2];
         selectedCharacterPrefabs = new GameObject[2];
     }
@@ -79,7 +83,7 @@ public class GameManager : MonoBehaviour
         // 試合前シーンに入ったときの処理
     }
 
-    void OnEnterMatchScene(Scene scene)
+    async void OnEnterMatchScene(Scene scene)
     {
         var matchScope = Instantiate(_matchScopePrefab);
         SceneManager.MoveGameObjectToScene(matchScope, scene);

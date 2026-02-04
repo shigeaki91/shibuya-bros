@@ -41,7 +41,6 @@ public class SelectManager : MonoBehaviour
     void Awake()
     {
         var i = 0;
-        var charaNumber = System.Enum.GetValues(typeof(CharacterNames)).Length;
         _charaImageDict = new Dictionary<CharacterNames, Sprite>();
         foreach (var entry in _charaImageEntries)
         {
@@ -56,7 +55,7 @@ public class SelectManager : MonoBehaviour
 
             button.OnClicked.Subscribe(_ =>
             {
-                Select(entry.CharacterName);
+                Select(entry.CharacterImage, entry.CharacterName);
             }).AddTo(this);
         }
 
@@ -102,12 +101,13 @@ public class SelectManager : MonoBehaviour
             .AddTo(this);
     }
 
-    async void Select(CharacterNames characterName)
+    async void Select(Sprite charaImage, CharacterNames characterName)
     {
         Debug.Log($"{characterName} selected.");
         if (_selectedIndex.Value < 2)
         {
-            GameManager.Instance.SetCharacters(characterName, _selectedIndex.Value);
+            GameManager.Instance.SetCharacters(charaImage, characterName, _selectedIndex.Value);
+
             DisplaySelectedCharacter(_selectedIndex.Value, characterName);
             _selectedIndex.Value += 1;
             await _cameraShake.Shake(0.3f, 3f);
@@ -160,7 +160,7 @@ public class SelectManager : MonoBehaviour
         Debug.Log("Match Start");
         await _faderToMatch.FadeIn();
         Debug.Log("Load Match Scene");
-        SceneManager.LoadScene("Match");
+        SceneManager.LoadScene("BeforeMatch");
     }
 
     async UniTask BlueLightMove()

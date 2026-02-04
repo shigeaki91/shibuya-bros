@@ -44,8 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc52543736cced4c94893f63870502a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedCharacters: 
-  selectedCharacterPrefabs: []
+  selectedCharacterImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  selectedCharacters: 0000000000000000
+  selectedCharacterPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
   _charaPrefabEntries:
   - CharacterName: 2
     CharacterPrefab: {fileID: 4889456766472064049, guid: 48993ea1d331fbb458a8deed5b9f0683, type: 3}
