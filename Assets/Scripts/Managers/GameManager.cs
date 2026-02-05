@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using System.Threading.Tasks;
 
 [System.Serializable]
 struct CharaPrefabEntry
@@ -87,5 +87,11 @@ public class GameManager : MonoBehaviour
     {
         var matchScope = Instantiate(_matchScopePrefab);
         SceneManager.MoveGameObjectToScene(matchScope, scene);
+        await Task.Delay(3500);
+        var characters = FindObjectsByType<Character>(FindObjectsSortMode.None);
+        foreach (var chara in characters)
+        {
+            chara.isStarting = false;
+        }
     }
 }

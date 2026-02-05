@@ -35,7 +35,8 @@ public class FadeController : MonoBehaviour
         _group.alpha = 0f;
         Debug.Log("Start Fade In");
         await LMotion.Create(0f, 1f, _duration)
-                    .BindToAlpha(_group);
+                    .BindToAlpha(_group)
+                    .ToUniTask();
 
         _group.alpha = 1f;
         Debug.Log("Fade In Complete");

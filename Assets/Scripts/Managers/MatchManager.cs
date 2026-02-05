@@ -38,7 +38,8 @@ public class MatchManager : MonoBehaviour
                  {
                     Debug.Log(chara.characterName + " is dead!! ");
                     chara.hp.Value = 0f;
-                    SceneManager.LoadScene("Select");
+                    Time.timeScale = 1f;
+                    SceneManager.LoadScene("CharaSelect");
                     Destroy(chara.gameObject);
                     
                  }).AddTo(this);
@@ -120,6 +121,8 @@ public class MatchManager : MonoBehaviour
                     .Bind(x =>
                     {
                         hpText.fontSize = x;
-                    });
+                    })
+                    .ToUniTask();
+
     }
 }

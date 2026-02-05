@@ -1,6 +1,7 @@
 using VContainer;
 using VContainer.Unity;
 using UnityEngine;
+using System.Threading.Tasks;
 
 public class MatchLifeTimeScope : LifetimeScope
 {
@@ -20,8 +21,14 @@ public class MatchLifeTimeScope : LifetimeScope
         Debug.Log("MatchLifeTimeScope configured.");
     }
 
-    protected override void Awake()
+    async protected override void Awake()
     {
+        base.Awake();
+        var matchManager = FindAnyObjectByType<MatchManager>();
+        var groupTargetSetting = FindAnyObjectByType<GroupTargetSetting>();
+        matchManager.gameObject.SetActive(false);
+        groupTargetSetting.gameObject.SetActive(false);
+        await Task.Delay(1);
         for (int i = 1; i <= _playerCount; i++)
         {
             _id = i;
@@ -31,8 +38,10 @@ public class MatchLifeTimeScope : LifetimeScope
             var scope = Instantiate(_playerScopePrefab, transform);
             Debug.Log(scope.name);
             scope.name = $"PlayerScope_{i}";
+            await Task.Delay(1000);
         }
-        
-        base.Awake();
+
+        matchManager.gameObject.SetActive(true);
+        groupTargetSetting.gameObject.SetActive(true);
     }
 }

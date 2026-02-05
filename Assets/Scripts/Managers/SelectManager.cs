@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using LitMotion;
 using System.Threading;
+using System.Threading.Tasks;
 
 [System.Serializable]
 struct CharaImageEntry
@@ -16,7 +17,8 @@ struct CharaImageEntry
 }
 public class SelectManager : MonoBehaviour
 {
-    public ReactiveProperty<int> _selectedIndex = new ReactiveProperty<int>(0);
+    public ReactiveProperty<int> _selectedIndex;
+    [SerializeField] float a;
     [SerializeField] UIShakeCameraStyle _cameraShake;
     [SerializeField] GameObject _charaSelectButtonPrefab;
     [SerializeField] List<CharaSelectButton> _charaSelectButtons;
@@ -40,6 +42,7 @@ public class SelectManager : MonoBehaviour
 
     void Awake()
     {
+        _selectedIndex = new ReactiveProperty<int>(0);
         var i = 0;
         _charaImageDict = new Dictionary<CharacterNames, Sprite>();
         foreach (var entry in _charaImageEntries)
@@ -55,7 +58,7 @@ public class SelectManager : MonoBehaviour
 
             button.OnClicked.Subscribe(_ =>
             {
-                Select(entry.CharacterImage, entry.CharacterName);
+                Select(entry.CharacterImage, entry.CharacterName).Forget();
             }).AddTo(this);
         }
 
@@ -77,7 +80,6 @@ public class SelectManager : MonoBehaviour
                 GoBackToTitle().Forget();
                 
             })
-            
             .AddTo(this);
 
         _selectedIndex
@@ -101,16 +103,17 @@ public class SelectManager : MonoBehaviour
             .AddTo(this);
     }
 
-    async void Select(Sprite charaImage, CharacterNames characterName)
+    async UniTask Select(Sprite charaImage, CharacterNames characterName)
     {
-        Debug.Log($"{characterName} selected.");
         if (_selectedIndex.Value < 2)
         {
             GameManager.Instance.SetCharacters(charaImage, characterName, _selectedIndex.Value);
 
             DisplaySelectedCharacter(_selectedIndex.Value, characterName);
             _selectedIndex.Value += 1;
+            Debug.Log("Start Shake");
             await _cameraShake.Shake(0.3f, 3f);
+            Debug.Log("Selected Index: " + _selectedIndex.Value);
         }
     }
 
@@ -120,6 +123,8 @@ public class SelectManager : MonoBehaviour
         selectedCharacterImage.transform.SetParent(_cameraShake.transform, false);
         selectedCharacterImage.transform.localPosition = _selectedCharacterImagePositions[index];
         selectedCharacterImage.sprite = _charaImageDict[characterName];
+        selectedCharacterImage.preserveAspect = true;
+        selectedCharacterImage.rectTransform.sizeDelta = new Vector2(150f, 150f);
         _selectedCharacterImages[index] = selectedCharacterImage;
     }
     void OnBackPressed()
@@ -140,11 +145,12 @@ public class SelectManager : MonoBehaviour
     async UniTask ReadyToFight(CancellationToken ct = default)
     {
         _readyToFightButton = Instantiate(_readyToFightButtonPrefab, _cameraShake.transform).GetComponent<ReadyToFight>();
-        await LMotion.Create(1400f, 800f, 0.1f)
+        await LMotion.Create(1400f, 900f, 0.1f)
                         .Bind(x =>
                         {
                             _readyToFightButton.RectTransform.sizeDelta = new Vector2(x, _readyToFightButton.RectTransform.sizeDelta.y);
-                        });
+                        })
+                        .ToUniTask();
 
         _readyToFightButton.OnClicked
             .Subscribe(_ => 
@@ -160,6 +166,7 @@ public class SelectManager : MonoBehaviour
         Debug.Log("Match Start");
         await _faderToMatch.FadeIn();
         Debug.Log("Load Match Scene");
+        await Task.Delay(1000);
         SceneManager.LoadScene("BeforeMatch");
     }
 
@@ -171,7 +178,7 @@ public class SelectManager : MonoBehaviour
             .Bind(t =>
             {
                 rect.localPosition = new Vector3(t, rect.localPosition.y, rect.localPosition.z);
-            }
-            );
+            })
+            .ToUniTask();
     }
 }

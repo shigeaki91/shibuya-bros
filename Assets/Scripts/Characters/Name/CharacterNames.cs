@@ -7,6 +7,6 @@ public enum CharacterNames
     Toshiatsu,
     Seiyuu,
     Daiki,
-    Hana,
+    Hanae,
     Shiori,
 }

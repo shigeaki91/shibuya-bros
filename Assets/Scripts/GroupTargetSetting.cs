@@ -4,7 +4,7 @@ using Unity.Cinemachine;
 public class GroupTargetSetting : MonoBehaviour
 {
     CinemachineTargetGroup _targetGroup;
-    GameObject[] _players;
+    public GameObject[] _players;
 
     void Start()
     {

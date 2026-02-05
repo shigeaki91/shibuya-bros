@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class Hana : Character
+public class Hanae : Character
 {
     void Start()
     {
-        Init(CharacterNames.Hana);
+        Init(CharacterNames.Hanae);
     }
     protected override void Update()
     {

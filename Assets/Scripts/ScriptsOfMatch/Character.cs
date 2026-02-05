@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using R3;
 using Extensions;
+using System.Collections;
 
 public abstract class Character : MonoBehaviour
 {
@@ -33,17 +34,24 @@ public abstract class Character : MonoBehaviour
     public bool isAttacking = false;
     public bool isTakingDamage = false;
     public bool isInvincible = false;
+    public bool isStarting;
     bool isJumpHolding = false;
     float SpecialDurationTimer = 0f;
     float _specialDurationTime = 15f;
     float _specialChargeTime = 1.5f;
+    TMPro.TMP_Text _playerIndexText;
     
     protected void Init(CharacterNames name)
     {
+        isStarting = true;
         characterName = name;
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         Animator = GetComponent<Animator>();
+        _playerIndexText = GetComponentInChildren<TMPro.TMP_Text>();
+        _playerIndexText.text = $"P{PlayerID}▼";
+        _playerIndexText.color = PlayerID == 1 ? Color.red : Color.blue;
+        _playerIndexText.fontSize = 30;
         rb.linearDamping = 1f;
         hp.Value = _maxHp;
 
@@ -122,22 +130,22 @@ public abstract class Character : MonoBehaviour
 
     public bool CanMove()
     {
-        return !isAttacking && !isTakingDamage || !isGrounded;
+        return !isStarting &&!isAttacking && !isTakingDamage || !isGrounded;
     }
     
     public bool CanJump()
     {
-        return !isAttacking && !isTakingDamage && currentJumpCount < maxJumpCount && jumpCoolTimer == 0f;
+        return !isStarting && !isAttacking && !isTakingDamage && currentJumpCount < maxJumpCount && jumpCoolTimer == 0f;
     }
 
     public bool CanAttack()
     {
-        return !isAttacking && !isTakingDamage;
+        return !isStarting && !isAttacking && !isTakingDamage;
     }
 
     public bool CanSpecialAttack()
     {
-        return !isAttacking && !isTakingDamage && SpecialDurationTimer >= _specialDurationTime;
+        return !isStarting && !isAttacking && !isTakingDamage && SpecialDurationTimer >= _specialDurationTime;
     }
 
     public void SetPlayerID(int id)
@@ -145,7 +153,7 @@ public abstract class Character : MonoBehaviour
         PlayerID = id;
     }
 
-    public virtual void TakeDamage(float damage)
+    public IEnumerator TakeDamage(float damage)
     {
         hp.Value -= damage;
         isTakingDamage = true;
@@ -155,13 +163,19 @@ public abstract class Character : MonoBehaviour
         {
             Animator.SetTrigger("KnockBack1");
             AudioManager.Instance.PlaySFX(SFXtypes.HitHeavy);
+            if (hp.Value > 0f)
+            {
+                Time.timeScale = 0f;
+                yield return new WaitForSecondsRealtime(0.08f);
+                Time.timeScale = 1f;
+            }
         }
         else 
         {
             Animator.SetTrigger("KnockBack2");
             AudioManager.Instance.PlaySFX(SFXtypes.HitLight);
+            yield return null;
         }
-        Debug.Log(characterName + " took " + damage + " damage! ");
     }
 
     protected virtual void ApplyGravity()

@@ -22,7 +22,7 @@ public class HitBox : MonoBehaviour
             target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
             rb = target.GetComponent<Rigidbody2D>();
             rb.linearVelocity = Knockback * target.GetHitKnockbackMultiplier();
-            target.TakeDamage(Damage);
+            target.StartCoroutine(target.TakeDamage(Damage));
         }
     }
 

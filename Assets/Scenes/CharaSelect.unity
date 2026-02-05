@@ -400,6 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c641810dea8dbb4fbf4b7564262795a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rect: {fileID: 0}
 --- !u!1 &397033782
 GameObject:
   m_ObjectHideFlags: 0
@@ -1151,24 +1152,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8cb9b9247f7ff47ad59d03fd966a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  a: 0
   _cameraShake: {fileID: 388537400}
   _charaSelectButtonPrefab: {fileID: 4059657093133530760, guid: 78a010fcc9340bd42bccbd5be737e821, type: 3}
   _charaSelectButtons: []
   _charaImageEntries:
-  - CharacterName: 1
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
-  - CharacterName: 2
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
-  - CharacterName: 3
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
-  - CharacterName: 4
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
-  - CharacterName: 5
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
   - CharacterName: 6
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
+    CharacterImage: {fileID: -8170249963891129270, guid: de4055ddfed4877498d381fb1a007ccd, type: 3}
+  - CharacterName: 2
+    CharacterImage: {fileID: 5394744909993814534, guid: 2a817451682054244b544efceb55d8ec, type: 3}
+  - CharacterName: 3
+    CharacterImage: {fileID: -6159010943657082782, guid: dc3c3560bc5c5bc4c9c93f9e8850073d, type: 3}
+  - CharacterName: 4
+    CharacterImage: {fileID: 8406930232501042161, guid: 7ae3b27e7ee55a9498f5e04f83000dd2, type: 3}
+  - CharacterName: 5
+    CharacterImage: {fileID: 6938301871365281045, guid: 8638c8ac7b0154e45a9302cfaa4ffe36, type: 3}
   - CharacterName: 7
-    CharacterImage: {fileID: -444102342650909288, guid: e34be57e87aa59c4a8b0b1e89b84824c, type: 3}
+    CharacterImage: {fileID: -8036296185853038049, guid: 88a9d435de7a15040b2d80b8d898468b, type: 3}
+  - CharacterName: 8
+    CharacterImage: {fileID: -2621809018723755164, guid: be0fdb1c18b698241a61b5e8704d4517, type: 3}
   _buttonPositions:
   - {x: -195, y: 105}
   - {x: -65, y: 105}
