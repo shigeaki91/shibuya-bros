@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class Takumu : Character
 {
@@ -14,11 +15,19 @@ public class Takumu : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
+        TakumuSP().Forget();
     }
 
     public override void SPDeactivate()
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
+    }
+
+    async UniTask TakumuSP()
+    {
+        
+
+        SPDeactivate();
     }
 }

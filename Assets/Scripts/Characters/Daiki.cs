@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 public class Daiki : Character
 {
@@ -18,11 +20,19 @@ public class Daiki : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
+        DaikiSP().Forget();
     }
 
     public override void SPDeactivate()
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
+    }
+
+    async UniTask DaikiSP()
+    {
+        
+
+        SPDeactivate();
     }
 }

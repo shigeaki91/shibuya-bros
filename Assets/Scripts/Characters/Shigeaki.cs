@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class Shigeaki : Character
 {
@@ -14,11 +15,19 @@ public class Shigeaki : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
+        ShigeakiSP().Forget();
     }
 
     public override void SPDeactivate()
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
+    }
+
+    async UniTask ShigeakiSP()
+    {
+        
+
+        SPDeactivate();
     }
 }

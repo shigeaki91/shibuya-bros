@@ -1,4 +1,5 @@
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class Toshiatsu : Character
 {
@@ -14,11 +15,19 @@ public class Toshiatsu : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
+        ToshiatsuSP().Forget();
     }
 
     public override void SPDeactivate()
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
+    }
+
+    async UniTask ToshiatsuSP()
+    {
+        
+
+        SPDeactivate();
     }
 }
