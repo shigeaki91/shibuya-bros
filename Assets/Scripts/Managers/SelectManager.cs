@@ -108,12 +108,10 @@ public class SelectManager : MonoBehaviour
         if (_selectedIndex.Value < 2)
         {
             GameManager.Instance.SetCharacters(charaImage, characterName, _selectedIndex.Value);
-
+            AudioManager.Instance.PlaySFX(SFXtypes.Select);
             DisplaySelectedCharacter(_selectedIndex.Value, characterName);
             _selectedIndex.Value += 1;
-            Debug.Log("Start Shake");
             await _cameraShake.Shake(0.3f, 3f);
-            Debug.Log("Selected Index: " + _selectedIndex.Value);
         }
     }
 
@@ -129,7 +127,6 @@ public class SelectManager : MonoBehaviour
     }
     void OnBackPressed()
     {
-        Debug.Log("Go Back One");
         if (_selectedIndex.Value > 0)
         {
             _selectedIndex.Value -= 1;
@@ -158,14 +155,13 @@ public class SelectManager : MonoBehaviour
                 _cameraShake.Shake(1f, 10f).Forget();
                 BlueLightMove().Forget();
                 MatchStart().Forget();
+                AudioManager.Instance.PlaySFX(SFXtypes.Shakiinn);
             }).AddTo(this);
     }
 
     async UniTask MatchStart(CancellationToken ct = default)
     {
-        Debug.Log("Match Start");
         await _faderToMatch.FadeIn();
-        Debug.Log("Load Match Scene");
         await Task.Delay(1000);
         SceneManager.LoadScene("BeforeMatch");
     }

@@ -26,6 +26,14 @@ public class TitleManager : MonoBehaviour
             .AddTo(this);
     }
 
+    void Start()
+    {
+        if (!AudioManager.Instance.OnPlayingBGM())
+        {
+            AudioManager.Instance.PlayBGM(BGMtypes.MainTheme, volumeScale: 0.5f);
+        }
+    }
+
     async UniTask OnSelectPressed()
     {
         await _fadeController.FadeIn();

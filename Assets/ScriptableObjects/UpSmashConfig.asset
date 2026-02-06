@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: UpSmashConfig
   m_EditorClassIdentifier: 
   _attackName: Up Smash
-  _damage: 12
+  _damage: 17.4
   _knockback: {x: 4, y: 10}
   _occurTime: 0.36
   _duration: 0.12
   _endingLag: 0.33
+  _downTime: 0.8

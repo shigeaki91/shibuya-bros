@@ -15,7 +15,7 @@ public class BeforeMatchManager : MonoBehaviour
         _selectedCharacterImages[index].enabled = true;
         _selectedCharacterImages[index].sprite = charaSprite;
 
-        LMotion.Create(1000f, 350f, 0.5f)
+        LMotion.Create(1000f, 320f, 0.5f)
             .WithEase(Ease.OutBounce)
             .Bind((v) =>
             {
@@ -35,6 +35,8 @@ public class BeforeMatchManager : MonoBehaviour
                 _vsImage.rectTransform.sizeDelta = new Vector2(v, _vsImage.rectTransform.sizeDelta.y);
             })
             .ToUniTask();
+        
+        AudioManager.Instance.PlaySFX(SFXtypes.Shakiinn);
     }
 
     async void Start()
@@ -47,6 +49,7 @@ public class BeforeMatchManager : MonoBehaviour
         {
             var charaSprite = GameManager.Instance.selectedCharacterSprites[i];
             DisplayCharaImage(charaSprite, i);
+            AudioManager.Instance.PlaySFX(SFXtypes.Dozun);
             await Task.Delay(100);
         }
 
@@ -55,6 +58,7 @@ public class BeforeMatchManager : MonoBehaviour
         DisplayVS();
         await Task.Delay(3000);
 
+        AudioManager.Instance.StopAllSounds();
         SceneManager.LoadScene("Match");
     }
 }

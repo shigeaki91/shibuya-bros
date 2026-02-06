@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using R3;
 using UnityEngine.UI;
+using UnityEngine.Video;
+using Cysharp.Threading.Tasks;
 
 
 namespace Extensions
@@ -51,6 +53,23 @@ namespace Extensions
                     }
                 })
                 .Switch();
+        }
+    }
+
+    public static class VideoPlayerExtensions
+    {
+        public static UniTask WaitForEnd(this VideoPlayer videoPlayer)
+        {
+            var tcs = new UniTaskCompletionSource();
+
+            void OnEnd(VideoPlayer vp)
+            {
+                vp.loopPointReached -= OnEnd;
+                tcs.TrySetResult();
+            }
+
+            videoPlayer.loopPointReached += OnEnd;
+            return tcs.Task;
         }
     }
 }

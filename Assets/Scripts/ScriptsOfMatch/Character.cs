@@ -30,6 +30,7 @@ public abstract class Character : MonoBehaviour
 
     public Rigidbody2D rb;
     public SpriteRenderer sr;
+    [SerializeField] SpriteRenderer faceSr;
     public bool isGrounded = true;
     public bool isAttacking = false;
     public bool isTakingDamage = false;
@@ -54,6 +55,8 @@ public abstract class Character : MonoBehaviour
         _playerIndexText.fontSize = 30;
         rb.linearDamping = 1f;
         hp.Value = _maxHp;
+        sr.sortingOrder = PlayerID*2;
+        faceSr.sortingOrder = PlayerID*2 + 1;
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
@@ -159,7 +162,7 @@ public abstract class Character : MonoBehaviour
         isTakingDamage = true;
         isGrounded = false;
         Animator.ResetTrigger("Landing");
-        if (damage > 5f) 
+        if (damage > 8f) 
         {
             Animator.SetTrigger("KnockBack1");
             AudioManager.Instance.PlaySFX(SFXtypes.HitHeavy);

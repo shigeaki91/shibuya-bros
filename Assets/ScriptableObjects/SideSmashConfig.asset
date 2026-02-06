@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SideSmashConfig
   m_EditorClassIdentifier: 
   _attackName: Side Smash
-  _damage: 15.2
+  _damage: 21.3
   _knockback: {x: 12, y: 5}
   _occurTime: 0.44
   _duration: 0.12
   _endingLag: 0.2
+  _downTime: 1

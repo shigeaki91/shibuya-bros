@@ -4,7 +4,7 @@ public class StageManager : MonoBehaviour
 {
     public string stageName;
     public Vector2 stageSize;
-    public Vector2 deathZone = new Vector2(50f, 30f);
+    public Vector2 deathZone = new Vector2(22f, 30f);
 
     public bool IsOutOfBounds(Transform characterTransform)
     {

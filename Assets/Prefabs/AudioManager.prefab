@@ -44,13 +44,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eb5a6b4f1e8a5f4ca956f94639c0914, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bgmEntry: []
+  _bgmEntry:
+  - Type: 0
+    Clip: {fileID: 8300000, guid: ecfc791788d56ae4daf5144b7ae41c5b, type: 3}
+  - Type: 1
+    Clip: {fileID: 8300000, guid: 5311bcbb2a3680044a589f74d92500ca, type: 3}
   _sfxEntry:
   - Type: 0
     Clip: {fileID: 8300000, guid: 18d6651c22898c847a19c20169a21104, type: 3}
   - Type: 1
     Clip: {fileID: 8300000, guid: 65d130f2ff7aca9418c5d9b7ab553ee2, type: 3}
   - Type: 2
-    Clip: {fileID: 8300000, guid: 64b4d89ee733760428c6f1f460e7f504, type: 3}
+    Clip: {fileID: 8300000, guid: 331924bb2e9ea8243847a31a82780616, type: 3}
   - Type: 3
-    Clip: {fileID: 8300000, guid: a5b2fc804a566e745b14c99e5da4d032, type: 3}
+    Clip: {fileID: 8300000, guid: acdfe307d70c2674aa4815c680cbc99b, type: 3}
+  - Type: 4
+    Clip: {fileID: 8300000, guid: 88726dc096ca3254a98d05add7c0d5a3, type: 3}
+  - Type: 5
+    Clip: {fileID: 8300000, guid: 40d1ddb94574c20459561b2c9be64761, type: 3}
+  - Type: 6
+    Clip: {fileID: 8300000, guid: 3ab2434e599afdc41a800104f9371203, type: 3}
+  - Type: 7
+    Clip: {fileID: 8300000, guid: 0e7ab8baaad50744ca3079f958c752cb, type: 3}
+  - Type: 8
+    Clip: {fileID: 8300000, guid: c0481a7bbf53cff40a08d117b92878d9, type: 3}

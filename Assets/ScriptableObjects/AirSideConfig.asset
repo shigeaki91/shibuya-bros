@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AirSideConfig
   m_EditorClassIdentifier: 
   _attackName: Air Side
-  _damage: 6.8
+  _damage: 8.2
   _knockback: {x: 8, y: 3}
   _occurTime: 0.22
   _duration: 0.12

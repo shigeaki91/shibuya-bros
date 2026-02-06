@@ -4,6 +4,9 @@ using LitMotion;
 using R3;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.Video;
+using Extensions;
 
 public class MatchManager : MonoBehaviour
 {
@@ -12,9 +15,26 @@ public class MatchManager : MonoBehaviour
     public float timelimit = 180f;
     [SerializeField] TMPro.TMP_Text P1Hp;
     [SerializeField] TMPro.TMP_Text P2Hp;
+    [SerializeField] VideoPlayer _fatalEffectPlayer;
+    RawImage _fatalEffectImage;
+    [SerializeField] VideoPlayer _gameSetPlayer;
+    RawImage _gameSetImage;
+    [SerializeField] FadeController _fader;
 
     public float timer;
 
+    void Awake()
+    {
+        _fatalEffectPlayer.Prepare();
+        _gameSetPlayer.Prepare();
+        _fatalEffectImage = _fatalEffectPlayer.GetComponent<RawImage>();
+        _gameSetImage = _gameSetPlayer.GetComponent<RawImage>();
+        _fatalEffectImage.enabled = false;
+        _gameSetImage.enabled = false;        
+
+        _fatalEffectPlayer.loopPointReached += OnVideoFinished;
+        _gameSetPlayer.loopPointReached += OnVideoFinished;
+    }
     void Start()
     {
         timer = timelimit;
@@ -36,12 +56,7 @@ public class MatchManager : MonoBehaviour
                  .Where(isDead => isDead)
                  .Subscribe(_ =>
                  {
-                    Debug.Log(chara.characterName + " is dead!! ");
-                    chara.hp.Value = 0f;
-                    Time.timeScale = 1f;
-                    SceneManager.LoadScene("CharaSelect");
-                    Destroy(chara.gameObject);
-                    
+                    GameSet(chara).Forget();
                  }).AddTo(this);
         }
     }
@@ -124,5 +139,37 @@ public class MatchManager : MonoBehaviour
                     })
                     .ToUniTask();
 
+    }
+
+    async UniTask GameSet(Character loser)
+    {
+        AudioManager.Instance.StopBGM();
+        loser.hp.Value = 0f;
+        loser.Animator.SetBool("Dead", true);
+        Time.timeScale = 0f;
+
+        _fatalEffectImage.enabled = true;
+        _fatalEffectPlayer.time = 0;
+        _fatalEffectPlayer.Play();
+        await _fatalEffectPlayer.WaitForEnd();
+
+        Time.timeScale = 0.3f;
+        await UniTask.Delay(1500, ignoreTimeScale: true);
+
+        Time.timeScale = 0f;
+        _gameSetImage.enabled = true;
+        _gameSetPlayer.time = 0;
+        _gameSetPlayer.Play();
+        await _gameSetPlayer.WaitForEnd();
+
+        Time.timeScale = 1f;
+        await _fader.FadeIn();
+        SceneManager.LoadScene("CharaSelect");
+    }
+
+    void OnVideoFinished(VideoPlayer vp)
+    {
+        vp.gameObject.SetActive(false);
+        vp.Stop();
     }
 }

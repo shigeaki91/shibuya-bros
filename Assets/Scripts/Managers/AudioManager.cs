@@ -55,12 +55,13 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void PlayBGM(BGMtypes type)
+    public void PlayBGM(BGMtypes type, float volumeScale = 1.0f, bool loop = true)
     {
         if (_bgmDict.TryGetValue(type, out var clip))
         {
             _bgmSource.clip = clip;
-            _bgmSource.loop = true;
+            _bgmSource.loop = loop;
+            _bgmSource.volume = volumeScale;
             _bgmSource.Play();
         }
         else
@@ -74,16 +75,32 @@ public class AudioManager : MonoBehaviour
         _bgmSource.Stop();
     }
 
-    public void PlaySFX(SFXtypes type)
+    public void PlaySFX(SFXtypes type, float volumeScale = 1.0f)
     {
         if (_sfxDict.TryGetValue(type, out var clip))
         {
-            _sfxSource.PlayOneShot(clip);
+            _sfxSource.PlayOneShot(clip, volumeScale);
         }
         else
         {
             Debug.LogWarning($"SFX type {type} not found!");
         }
+    }
+
+    public bool OnPlayingBGM()
+    {
+        return _bgmSource.isPlaying;
+    }
+
+    public bool OnPlayingSFX()
+    {
+        return _sfxSource.isPlaying;
+    }
+
+    public void StopAllSounds()
+    {
+        _bgmSource.Stop();
+        _sfxSource.Stop();
     }
 }
 
@@ -91,8 +108,6 @@ public enum BGMtypes
 {
     MainTheme,
     BattleTheme,
-    Victory
-
 }
 
 public enum SFXtypes
@@ -101,6 +116,9 @@ public enum SFXtypes
     Attack,
     HitLight,
     HitHeavy,
-    Run,
-    Damage
+    Jinari,
+    Shakiinn,
+    Select,
+    GameStart,
+    Dozun,
 }

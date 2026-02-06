@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DashAttackConfig
   m_EditorClassIdentifier: 
   _attackName: Dash Attack
-  _damage: 6.4
+  _damage: 4.6
   _knockback: {x: 2, y: 4}
   _occurTime: 0.15
   _duration: 0.3
   _endingLag: 0.05
+  _downTime: 0.35

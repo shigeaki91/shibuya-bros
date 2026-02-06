@@ -76,15 +76,25 @@ public class GameManager : MonoBehaviour
         selectedCharacterSprites = new Sprite[2];
         selectedCharacters = new CharacterNames[2];
         selectedCharacterPrefabs = new GameObject[2];
+        if (!AudioManager.Instance.OnPlayingBGM())
+        {
+            AudioManager.Instance.PlayBGM(BGMtypes.MainTheme, volumeScale: 0.5f);
+        }
     }
 
     void OnEnterBeforeMatchScene(Scene scene)
     {
-        // 試合前シーンに入ったときの処理
+        if (AudioManager.Instance.OnPlayingBGM())
+        {
+            AudioManager.Instance.StopBGM();
+        }
+
+        AudioManager.Instance.PlaySFX(SFXtypes.Jinari);
     }
 
     async void OnEnterMatchScene(Scene scene)
     {
+        AudioManager.Instance.PlayBGM(BGMtypes.BattleTheme, volumeScale: 0.5f);
         var matchScope = Instantiate(_matchScopePrefab);
         SceneManager.MoveGameObjectToScene(matchScope, scene);
         await Task.Delay(3500);
