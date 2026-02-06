@@ -36,7 +36,6 @@ public class Daiki : Character
 
     async UniTask DaikiSP()
     {
-        //Animator.SetTrigger("DaikiSP");
         var dir = sr.flipX ? -1 : 1;
         var shadowSpawnPosition = _shadowSpawnPosition;
         shadowSpawnPosition.x *= dir;

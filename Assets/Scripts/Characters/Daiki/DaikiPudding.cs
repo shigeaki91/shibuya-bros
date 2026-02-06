@@ -27,6 +27,7 @@ public class DaikiPudding : HitBox
                 hasLanded = true;
                 _rb.linearVelocity = Vector2.zero;
                 _rb.bodyType = RigidbodyType2D.Static;
+                AudioManager.Instance.PlaySFX(SFXtypes.PuddingLand);
             }
         }
     }

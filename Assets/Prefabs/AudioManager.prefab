@@ -68,3 +68,15 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 0e7ab8baaad50744ca3079f958c752cb, type: 3}
   - Type: 8
     Clip: {fileID: 8300000, guid: c0481a7bbf53cff40a08d117b92878d9, type: 3}
+  - Type: 9
+    Clip: {fileID: 8300000, guid: 3f6b0e86ef67267458480bb721165245, type: 3}
+  - Type: 10
+    Clip: {fileID: 8300000, guid: 9bca4555330b3f04ea7d079cb1d45511, type: 3}
+  - Type: 11
+    Clip: {fileID: 8300000, guid: 26f1dc93e0387c74483eeb0bd63fa5c4, type: 3}
+  - Type: 12
+    Clip: {fileID: 8300000, guid: 2f912dc4d3ea85940a73e3d8fb36f434, type: 3}
+  - Type: 13
+    Clip: {fileID: 8300000, guid: e4c941bc674a8804180f743651597961, type: 3}
+  - Type: 14
+    Clip: {fileID: 8300000, guid: 92edb512932f10843b459a25e85b8c32, type: 3}

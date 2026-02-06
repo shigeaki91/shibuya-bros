@@ -29,7 +29,6 @@ public class Tsuyoshi : Character
 
     async UniTask TsuyoshiSP()
     {
-        //Animator.SetTrigger("TsuyoshiSP");
         var dir = sr.flipX ? -1 : 1;
         var shutterSpawnPosition = _shutterSpawnPosition;
         shutterSpawnPosition.x *= dir;
@@ -37,7 +36,8 @@ public class Tsuyoshi : Character
         var shutterGo = Instantiate(_shutterPrefab, (Vector2)transform.position + shutterSpawnPosition, Quaternion.identity);
         var shutter = shutterGo.GetComponent<TsuyoshiShutter>();
         shutter.Owner = this;
-        await UniTask.Delay(2000);
+        shutter.Direction = dir;
+        await UniTask.Delay(1200);
 
         SPDeactivate();
     }

@@ -10,6 +10,7 @@ public class TsuyoshiShutter : HitBox
     [SerializeField] Vector2 _targetPos3;
     BoxCollider2D _bc;
     SpriteRenderer _sr;
+    public int Direction;
     void Awake()
     {
         _bc = GetComponent<BoxCollider2D>();
@@ -24,6 +25,9 @@ public class TsuyoshiShutter : HitBox
 
     async void Start()
     {
+        _targetPos1.x *= Direction;
+        _targetPos2.x *= Direction;
+        _targetPos3.x *= Direction;
         await LMotion.Create((Vector2)transform.position, (Vector2)transform.position + _targetPos1, 0.3f)
                 .WithEase(Ease.OutQuad)
                 .BindToPositionXY(transform)
@@ -40,6 +44,7 @@ public class TsuyoshiShutter : HitBox
 
         await UniTask.Delay(200);
         _bc.enabled = true;
+        AudioManager.Instance.PlaySFX(SFXtypes.Shutter);
         await LMotion.Create(0.4f, 1f, 0.1f)
                 .WithEase(Ease.OutQuad)
                 .Bind((float val) =>

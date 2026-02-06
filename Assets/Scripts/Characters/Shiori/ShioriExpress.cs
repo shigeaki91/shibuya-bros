@@ -12,6 +12,10 @@ public class ShioriExpress : HitBox
         InvincibilityDuration = 0.1f;
         DownTime = 0.5f;
     }
+    void Start()
+    {
+        AudioManager.Instance.PlaySFX(SFXtypes.Tsuuka);
+    }
 
     public void Launch(int direction)
     {

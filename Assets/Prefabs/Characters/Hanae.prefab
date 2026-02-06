@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 3526297547696596261}
   - component: {fileID: 2365458221403163998}
   m_Layer: 3
-  m_Name: Hana
+  m_Name: Hanae
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -929,6 +929,9 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _musicNotePrefab: {fileID: 1107938299069418910, guid: 55bcc07b9a4db7b48ac9b18b0f321d70, type: 3}
+  _numberOfNotes: 5
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

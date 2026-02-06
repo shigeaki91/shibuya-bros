@@ -35,7 +35,6 @@ public class Seiyuu : Character
 
     async UniTask SeiyuuSP()
     {
-        //Animator.SetTrigger("SeiyuuSP");
         var dir = sr.flipX ? -1 : 1;
         var canonSpawnPosition = _canonSpawnPosition;
         canonSpawnPosition.x *= dir;
@@ -49,6 +48,7 @@ public class Seiyuu : Character
         var coconutGo = Instantiate(_coconutPrefab, (Vector2)transform.position + coconutSpawnPosition, Quaternion.identity);
         var coconut = coconutGo.GetComponent<SeiyuuCoconuts>();
         coconut.Owner = this;
+        AudioManager.Instance.PlaySFX(SFXtypes.Hassya);
         await UniTask.Delay(1500);
         Destroy(canonGo);
         Destroy(coconutGo);

@@ -121,4 +121,10 @@ public enum SFXtypes
     Select,
     GameStart,
     Dozun,
+    Shutter,
+    Tsuuka,
+    PuddingLand,
+    Explosion,
+    Hassya,
+    HouseBuild,
 }

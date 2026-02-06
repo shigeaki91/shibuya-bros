@@ -20,6 +20,11 @@ public class TakumuHouse : HitBox
             });
     }
 
+    void Start()
+    {
+        AudioManager.Instance.PlaySFX(SFXtypes.HouseBuild);
+    }
+
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);

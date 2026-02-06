@@ -34,7 +34,6 @@ public class Shiori : Character
 
     async UniTask ShioriSP()
     {
-        //Animator.SetTrigger("ShioriSP");
         var dir = Random.value < 0.5f ? -1 : 1;
         var expressSpawnPosition = _expressSpawnPosition;
         expressSpawnPosition.x *= dir;

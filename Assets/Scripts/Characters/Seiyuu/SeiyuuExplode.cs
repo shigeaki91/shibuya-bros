@@ -19,13 +19,10 @@ public class SeiyuuExplode : HitBox
             });
     }
 
-    void Update()
+    void Start()
     {
-        _exsistDuration -= Time.deltaTime;
-        if (_exsistDuration <= 0f)
-        {
-            Destroy(gameObject);
-        }
+        AudioManager.Instance.PlaySFX(SFXtypes.Explosion);
+        Destroy(gameObject, _exsistDuration);
     }
 
     protected override void OnTriggerEnter2D(Collider2D collision)

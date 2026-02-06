@@ -32,7 +32,6 @@ public class Toshiatsu : Character
 
     async UniTask ToshiatsuSP()
     {
-        //Animator.SetTrigger("ToshiatsuSP");
         var dir = sr.flipX ? -1 : 1;
         var afroSpawnPosition = _afroSpawnPosition; 
         afroSpawnPosition.x *= dir;

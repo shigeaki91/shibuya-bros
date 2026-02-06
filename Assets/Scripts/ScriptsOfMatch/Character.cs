@@ -38,9 +38,12 @@ public abstract class Character : MonoBehaviour
     public bool isStarting;
     bool isJumpHolding = false;
     float SpecialDurationTimer = 0f;
-    float _specialDurationTime = 15f;
-    float _specialChargeTime = 1.5f;
+    float _specialDurationTime = 7f;
+    float _specialChargeTime = 0.7f;
     TMPro.TMP_Text _playerIndexText;
+    int _baseLayerIndex;
+
+    public bool debug = false;
     
     protected void Init(CharacterNames name)
     {
@@ -57,6 +60,7 @@ public abstract class Character : MonoBehaviour
         hp.Value = _maxHp;
         sr.sortingOrder = PlayerID*2;
         faceSr.sortingOrder = PlayerID*2 + 1;
+        _baseLayerIndex = Animator.GetLayerIndex("Base Layer");
 
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
@@ -69,9 +73,10 @@ public abstract class Character : MonoBehaviour
         Debug.Log("Special Attack Initialized for " + characterName);
         var specialChargeObservable = ObservableEx.ChargeActionByObservable(_inputActionMap.FindAction("Attack"), _specialChargeTime);
         specialChargeObservable
-            .Where(_ => CanSpecialAttack())
+            .Select(charge => CanSpecialAttack() ? charge : 0f)
             .Select(charge => charge >= 1.0f)
             .DistinctUntilChanged()
+            .Where(canActivate => canActivate)
             .Subscribe(_ =>
             {
                 SPActivate();
@@ -82,15 +87,19 @@ public abstract class Character : MonoBehaviour
     {
         SpecialDurationTimer = 0f;
         isAttacking = true;
+        isInvincible = true;
         Animator.SetBool("Idling", false);
-        //Debug.Log($"{characterName} Special Attack Activated!");
+        //Animator.SetTrigger("Special");
+        Animator.SetLayerWeight(_baseLayerIndex, 0f);
     }
 
     public virtual void SPDeactivate()
     {
-        Animator.SetBool("Idling", true);
         isAttacking = false;
-        //Debug.Log($"{characterName} Special Attack ended");
+        isInvincible = false;
+        Animator.SetBool("Idling", true);
+        //Animator.ResetTrigger("EndSpecial");
+        Animator.SetLayerWeight(_baseLayerIndex, 1f);
     }
 
     public float GetSpecialChargeRatio()
@@ -117,6 +126,7 @@ public abstract class Character : MonoBehaviour
             }
         }
         
+        debug = CanSpecialAttack();
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -156,7 +166,7 @@ public abstract class Character : MonoBehaviour
 
     public bool CanSpecialAttack()
     {
-        return !isStarting && !isAttacking && !isTakingDamage && SpecialDurationTimer >= _specialDurationTime;
+        return !isStarting && !isTakingDamage && SpecialDurationTimer >= _specialDurationTime;
     }
 
     public void SetPlayerID(int id)

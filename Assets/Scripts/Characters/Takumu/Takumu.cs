@@ -33,7 +33,6 @@ public class Takumu : Character
 
     async UniTask TakumuSP()
     {
-        //Animator.SetTrigger("TakumuSP");
         var dir = sr.flipX ? -1 : 1;
         var houseSpawnPosition = _houseSpawnPosition;
         houseSpawnPosition.x *= dir;
