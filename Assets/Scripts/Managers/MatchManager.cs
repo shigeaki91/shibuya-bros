@@ -15,6 +15,10 @@ public class MatchManager : MonoBehaviour
     public float timelimit = 180f;
     [SerializeField] TMPro.TMP_Text P1Hp;
     [SerializeField] TMPro.TMP_Text P2Hp;
+    [SerializeField] Image P1Image;
+    [SerializeField] Image P2Image;
+    [SerializeField] SPGauge P1SPGauge;
+    [SerializeField] SPGauge P2SPGauge;
     [SerializeField] VideoPlayer _fatalEffectPlayer;
     RawImage _fatalEffectImage;
     [SerializeField] VideoPlayer _gameSetPlayer;
@@ -30,8 +34,10 @@ public class MatchManager : MonoBehaviour
         _fatalEffectImage = _fatalEffectPlayer.GetComponent<RawImage>();
         _gameSetImage = _gameSetPlayer.GetComponent<RawImage>();
         _fatalEffectImage.enabled = false;
-        _gameSetImage.enabled = false;        
-
+        _gameSetImage.enabled = false;
+        P1Image.sprite = GameManager.Instance.selectedCharacterSprites[0];
+        P2Image.sprite = GameManager.Instance.selectedCharacterSprites[1];
+        
         _fatalEffectPlayer.loopPointReached += OnVideoFinished;
         _gameSetPlayer.loopPointReached += OnVideoFinished;
     }
@@ -42,8 +48,16 @@ public class MatchManager : MonoBehaviour
 
         foreach (var chara in charas)
         {
-            if (chara.PlayerID == 1) characters[0] = chara;
-            else if (chara.PlayerID == 2) characters[1] = chara;
+            if (chara.PlayerID == 1) 
+            {
+                characters[0] = chara;
+                P1SPGauge.Owner = chara;
+            }
+            else if (chara.PlayerID == 2) 
+            {
+                characters[1] = chara;
+                P2SPGauge.Owner = chara;
+            }
             chara.hp
                 .Subscribe(async hp =>
                 {

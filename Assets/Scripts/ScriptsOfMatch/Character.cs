@@ -61,10 +61,10 @@ public abstract class Character : MonoBehaviour
         _inputActionMap = _inputAction.FindActionMap($"Player{PlayerID}");
         _inputActionMap.Enable();
 
-        SAInit();
+        SPInit();
     }
 
-    public void SAInit()
+    public void SPInit()
     {
         Debug.Log("Special Attack Initialized for " + characterName);
         var specialChargeObservable = ObservableEx.ChargeActionByObservable(_inputActionMap.FindAction("Attack"), _specialChargeTime);
@@ -74,11 +74,11 @@ public abstract class Character : MonoBehaviour
             .DistinctUntilChanged()
             .Subscribe(_ =>
             {
-                SAActivate();
+                SPActivate();
             }).AddTo(this);
     }
 
-    public virtual void SAActivate()
+    public virtual void SPActivate()
     {
         SpecialDurationTimer = 0f;
         isAttacking = true;
@@ -86,11 +86,16 @@ public abstract class Character : MonoBehaviour
         //Debug.Log($"{characterName} Special Attack Activated!");
     }
 
-    public virtual void SADeactivate()
+    public virtual void SPDeactivate()
     {
-        isAttacking = false;
         Animator.SetBool("Idling", true);
+        isAttacking = false;
         //Debug.Log($"{characterName} Special Attack ended");
+    }
+
+    public float GetSpecialChargeRatio()
+    {
+        return Mathf.Clamp01(SpecialDurationTimer / _specialDurationTime);
     }
 
     protected virtual void Update()
@@ -100,15 +105,18 @@ public abstract class Character : MonoBehaviour
         HandleJump();
         AirAnimationControl();
         KnockBackControl();
-
-        if (SpecialDurationTimer < _specialDurationTime)
+        if (!isStarting)
         {
-            SpecialDurationTimer += Time.deltaTime;
+            if (SpecialDurationTimer < _specialDurationTime)
+            {
+                SpecialDurationTimer += Time.deltaTime;
+            }
+            else if (SpecialDurationTimer >= _specialDurationTime && isAttacking)
+            {
+                SpecialDurationTimer = _specialDurationTime;
+            }
         }
-        else if (SpecialDurationTimer >= _specialDurationTime && isAttacking)
-        {
-            SpecialDurationTimer = _specialDurationTime;
-        }
+        
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -164,6 +172,7 @@ public abstract class Character : MonoBehaviour
         Animator.ResetTrigger("Landing");
         if (damage > 8f) 
         {
+            SpecialDurationTimer += _specialDurationTime * 0.05f;
             Animator.SetTrigger("KnockBack1");
             AudioManager.Instance.PlaySFX(SFXtypes.HitHeavy);
             if (hp.Value > 0f)
@@ -175,6 +184,7 @@ public abstract class Character : MonoBehaviour
         }
         else 
         {
+            SpecialDurationTimer += _specialDurationTime * 0.02f;
             Animator.SetTrigger("KnockBack2");
             AudioManager.Instance.PlaySFX(SFXtypes.HitLight);
             yield return null;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 public class MatchLifeTimeScope : LifetimeScope
 {
     [SerializeField] PlayerLifetimeScope _playerScopePrefab;
-    CharacterNames[] _selectedCharacters = new CharacterNames[2];
-    GameObject[] _characterPrefabs = new GameObject[2];
+    [SerializeField] CharacterNames[] _selectedCharacters = new CharacterNames[2];
+    [SerializeField] GameObject[] _characterPrefabs = new GameObject[2];
     public CharacterNames[] SelectedCharacters => _selectedCharacters;
     public GameObject[] CharacterPrefabs => _characterPrefabs;
     int _playerCount = 2;

@@ -10,14 +10,15 @@ public class Toshiatsu : Character
     {
         base.Update();
     }
-    public override void SAActivate()
+    public override void SPActivate()
     {
         Debug.Log("Special Attack Activated for " + characterName);
-        
+        base.SPActivate();
     }
 
-    public override void SADeactivate()
+    public override void SPDeactivate()
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
+        base.SPDeactivate();
     }
 }
