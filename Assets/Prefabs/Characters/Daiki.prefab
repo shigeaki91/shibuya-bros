@@ -929,6 +929,11 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _ShadowPrefab: {fileID: 1182435024595253282, guid: 5fbceeec01e229d4a9a41af9cd2fd20a, type: 3}
+  _puddingPrefab: {fileID: 7554552782199031504, guid: 4ec6566320a10ea44966a3caf6532e6d, type: 3}
+  _shadowSpawnPosition: {x: 4, y: -1.5}
+  _puddingSpawnPosition: {x: 4, y: 7}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

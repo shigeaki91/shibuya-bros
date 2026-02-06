@@ -9,9 +9,9 @@ public class HitBox : MonoBehaviour
     public float InvincibilityDuration = 0.05f;
     public float DownTime = 0.35f;
     public bool hit = false;
-    private Rigidbody2D rb;
+    private Rigidbody2D targetRb;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         Character target = collision.GetComponent<Character>();
         if (target != null && target != Owner && target.isInvincible == false)
@@ -20,8 +20,8 @@ public class HitBox : MonoBehaviour
             //target.isInvincible = true;
             target.StartCoroutine(DownCoroutine(target, DownTime * target.GetDownTimeMultiplier()));
             target.StartCoroutine(InvincibilityCoroutine(target, InvincibilityDuration));
-            rb = target.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = Knockback * target.GetHitKnockbackMultiplier();
+            targetRb = target.GetComponent<Rigidbody2D>();
+            targetRb.linearVelocity = Knockback * target.GetHitKnockbackMultiplier();
             target.StartCoroutine(target.TakeDamage(Damage));
         }
     }

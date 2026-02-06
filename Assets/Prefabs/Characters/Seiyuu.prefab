@@ -842,6 +842,11 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _CanonPrefab: {fileID: 5057918143925959391, guid: 3477c77d78d9b7a4591008410b259c14, type: 3}
+  _coconutPrefab: {fileID: 8464676789121043431, guid: 7393a670ade6b0c4b861c160b656f4ee, type: 3}
+  _canonSpawnPosition: {x: 0, y: -1.5}
+  _coconutSpawnPosition: {x: 2, y: 0.65}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

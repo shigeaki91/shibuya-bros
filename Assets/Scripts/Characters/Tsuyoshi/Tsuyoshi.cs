@@ -3,6 +3,9 @@ using Cysharp.Threading.Tasks;
 
 public class Tsuyoshi : Character
 {
+    int _tsuyoshiLayerIndex;    
+    [SerializeField] GameObject _shutterPrefab;
+    [SerializeField] Vector2 _shutterSpawnPosition;
     void Start()
     {
         Init(CharacterNames.Tsuyoshi);
@@ -26,7 +29,15 @@ public class Tsuyoshi : Character
 
     async UniTask TsuyoshiSP()
     {
-        
+        //Animator.SetTrigger("TsuyoshiSP");
+        var dir = sr.flipX ? -1 : 1;
+        var shutterSpawnPosition = _shutterSpawnPosition;
+        shutterSpawnPosition.x *= dir;
+        await UniTask.Delay(100);
+        var shutterGo = Instantiate(_shutterPrefab, (Vector2)transform.position + shutterSpawnPosition, Quaternion.identity);
+        var shutter = shutterGo.GetComponent<TsuyoshiShutter>();
+        shutter.Owner = this;
+        await UniTask.Delay(2000);
 
         SPDeactivate();
     }

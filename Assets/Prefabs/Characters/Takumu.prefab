@@ -842,6 +842,9 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _housePrefab: {fileID: 6506868259991919323, guid: cdbfcaf9aa8168d4e82ac0d18a19bbb9, type: 3}
+  _houseSpawnPosition: {x: 5, y: -1.5}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

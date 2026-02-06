@@ -842,6 +842,9 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _shutterPrefab: {fileID: 2051892466814702025, guid: d62265e9074618b479ff7736cde22697, type: 3}
+  _shutterSpawnPosition: {x: 1.5, y: 2}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

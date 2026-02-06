@@ -929,6 +929,9 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _expressPrefab: {fileID: 8531277025850500759, guid: 47cd001e37536da4f9e5c6c72cf410b9, type: 3}
+  _expressSpawnPosition: {x: 30, y: -0.3}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0

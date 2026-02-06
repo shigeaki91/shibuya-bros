@@ -929,6 +929,9 @@ MonoBehaviour:
   isTakingDamage: 0
   isInvincible: 0
   isStarting: 0
+  debug: 0
+  _afroPrefab: {fileID: 6332355918579183520, guid: 45e3e2af5250fe649842259ef0120b9d, type: 3}
+  _afroSpawnPosition: {x: 0, y: 0}
 --- !u!1 &5378697889987647043
 GameObject:
   m_ObjectHideFlags: 0
