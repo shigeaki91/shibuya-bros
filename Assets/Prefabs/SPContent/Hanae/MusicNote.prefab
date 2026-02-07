@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3465247758882481447}
   - component: {fileID: 5209820099388958433}
   - component: {fileID: 547305807172220914}
+  - component: {fileID: -7204503094642548435}
   m_Layer: 0
   m_Name: MusicNote
   m_TagString: Untagged
@@ -184,3 +185,25 @@ MonoBehaviour:
   hit: 0
   launchSpeed: 10
   _existenceTime: 3
+--- !u!95 &-7204503094642548435
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107938299069418910}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 12d82ba041c65cf4f85270eef4d2163b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

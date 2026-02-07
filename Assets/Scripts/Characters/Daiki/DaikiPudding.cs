@@ -5,6 +5,7 @@ public class DaikiPudding : HitBox
     Rigidbody2D _rb;
     public float FallSpeed = -5f;
     bool hasLanded = false;
+    [SerializeField] Animator _animator;
 
     void Awake()
     {
@@ -15,8 +16,17 @@ public class DaikiPudding : HitBox
         DownTime = 0.5f;
 
         _rb.linearVelocityY = FallSpeed;
+        _animator.Play("Pudding");
+        _animator.speed = 0f;
     }
 
+    void Update()
+    {
+        if (_animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f && hasLanded)
+        {
+            _animator.speed = 0f;
+        }
+    }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         base.OnTriggerEnter2D(collision);
@@ -24,6 +34,7 @@ public class DaikiPudding : HitBox
         {
             if (!hasLanded)
             {
+                _animator.speed = 1f;
                 hasLanded = true;
                 _rb.linearVelocity = Vector2.zero;
                 _rb.bodyType = RigidbodyType2D.Static;
