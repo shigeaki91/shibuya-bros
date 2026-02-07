@@ -4,14 +4,13 @@ using UnityEditor.Experimental.GraphView;
 
 public class Shiori : Character
 {
-    int _shioriLayerIndex;
 
     [SerializeField] GameObject _expressPrefab;
     [SerializeField] Vector2 _expressSpawnPosition;
     void Start()
     {
         Init(CharacterNames.Shiori);
-        _shioriLayerIndex = Animator.GetLayerIndex("Shiori Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Shiori Layer");
     }
     protected override void Update()
     {
@@ -21,7 +20,6 @@ public class Shiori : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_shioriLayerIndex, 1f);
         ShioriSP().Forget();
     }
 
@@ -29,7 +27,6 @@ public class Shiori : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_shioriLayerIndex, 0f);
     }
 
     async UniTask ShioriSP()

@@ -327,11 +327,11 @@ PrefabInstance:
     - target: {fileID: 8561773486781906819, guid: 7f072b1ac6fcd2e459b75dfb0aca9a5b, type: 3}
       propertyPath: '_characterPrefabs.Array.data[0]'
       value: 
-      objectReference: {fileID: 4889456766472064049, guid: 872a8e21447b59644bd89c6e9c83795a, type: 3}
+      objectReference: {fileID: 4889456766472064049, guid: 48993ea1d331fbb458a8deed5b9f0683, type: 3}
     - target: {fileID: 8561773486781906819, guid: 7f072b1ac6fcd2e459b75dfb0aca9a5b, type: 3}
       propertyPath: '_characterPrefabs.Array.data[1]'
       value: 
-      objectReference: {fileID: 4889456766472064049, guid: 5805869db78c39748a12fc7eafbbe86c, type: 3}
+      objectReference: {fileID: 4889456766472064049, guid: 872a8e21447b59644bd89c6e9c83795a, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

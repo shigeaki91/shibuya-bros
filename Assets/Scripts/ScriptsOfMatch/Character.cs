@@ -42,6 +42,7 @@ public abstract class Character : MonoBehaviour
     float _specialChargeTime = 0.7f;
     TMPro.TMP_Text _playerIndexText;
     int _baseLayerIndex;
+    protected int _specialLayerIndex;
 
     public bool debug = false;
     
@@ -71,6 +72,7 @@ public abstract class Character : MonoBehaviour
     public void SPInit()
     {
         Debug.Log("Special Attack Initialized for " + characterName);
+        Animator.SetLayerWeight(_specialLayerIndex, 0f);
         var specialChargeObservable = ObservableEx.ChargeActionByObservable(_inputActionMap.FindAction("Attack"), _specialChargeTime);
         specialChargeObservable
             .Select(charge => CanSpecialAttack() ? charge : 0f)
@@ -89,8 +91,10 @@ public abstract class Character : MonoBehaviour
         isAttacking = true;
         isInvincible = true;
         Animator.SetBool("Idling", false);
-        //Animator.SetTrigger("Special");
+        Animator.SetTrigger("Special");
+        Animator.ResetTrigger("EndSpecial");
         Animator.SetLayerWeight(_baseLayerIndex, 0f);
+        Animator.SetLayerWeight(_specialLayerIndex, 1f);
     }
 
     public virtual void SPDeactivate()
@@ -98,8 +102,9 @@ public abstract class Character : MonoBehaviour
         isAttacking = false;
         isInvincible = false;
         Animator.SetBool("Idling", true);
-        //Animator.ResetTrigger("EndSpecial");
+        Animator.SetTrigger("EndSpecial");
         Animator.SetLayerWeight(_baseLayerIndex, 1f);
+        Animator.SetLayerWeight(_specialLayerIndex, 0f);
     }
 
     public float GetSpecialChargeRatio()
@@ -126,7 +131,7 @@ public abstract class Character : MonoBehaviour
             }
         }
         
-        debug = CanSpecialAttack();
+        Debug.Log(Animator.GetCurrentAnimatorStateInfo(_specialLayerIndex).IsName("Special"));
     }
 
     public virtual void Move(float direction, float speedScaler)
@@ -278,7 +283,7 @@ public abstract class Character : MonoBehaviour
             Animator.SetBool("Down", false);
         }
 
-        if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Down") && Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        if (Animator.GetCurrentAnimatorStateInfo(_baseLayerIndex).IsName("Down") || Animator.GetCurrentAnimatorStateInfo(_specialLayerIndex).IsName("Special") && Animator.GetCurrentAnimatorStateInfo(_specialLayerIndex).normalizedTime >= 0.99f)
         {
             Animator.speed = 0f;
         }

@@ -3,13 +3,12 @@ using Cysharp.Threading.Tasks;
 
 public class Hanae : Character
 {
-    int _hanaeLayerIndex;
     [SerializeField] GameObject _musicNotePrefab;
-    [SerializeField] int _numberOfNotes = 5;
+    [SerializeField] int _numberOfNotes = 10;
     void Start()
     {
         Init(CharacterNames.Hanae);
-        _hanaeLayerIndex = Animator.GetLayerIndex("Hanae Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Hanae Layer");
     }
     protected override void Update()
     {
@@ -19,7 +18,6 @@ public class Hanae : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_hanaeLayerIndex, 1f);
         HanaeSP().Forget();
     }
 
@@ -27,7 +25,6 @@ public class Hanae : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_hanaeLayerIndex, 0f);
     }
 
     async UniTask HanaeSP()

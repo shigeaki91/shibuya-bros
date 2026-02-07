@@ -4,7 +4,6 @@ using R3.Triggers;
 
 public class Daiki : Character
 {
-    int _daikiLayerIndex;
 
     [SerializeField] GameObject _ShadowPrefab;
     [SerializeField] GameObject _puddingPrefab;
@@ -13,7 +12,7 @@ public class Daiki : Character
     void Start()
     {
         Init(CharacterNames.Daiki);
-        _daikiLayerIndex = Animator.GetLayerIndex("Daiki Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Daiki Layer");
     }
     protected override void Update()
     {
@@ -23,7 +22,6 @@ public class Daiki : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_daikiLayerIndex, 1f);
         DaikiSP().Forget();
     }
 
@@ -31,7 +29,6 @@ public class Daiki : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_daikiLayerIndex, 0f);
     }
 
     async UniTask DaikiSP()

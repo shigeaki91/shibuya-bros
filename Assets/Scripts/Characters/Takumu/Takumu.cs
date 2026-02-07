@@ -3,14 +3,13 @@ using Cysharp.Threading.Tasks;
 
 public class Takumu : Character
 {
-    int _takumuLayerIndex;
 
     [SerializeField] GameObject _housePrefab;
     [SerializeField] Vector2 _houseSpawnPosition;
     void Start()
     {
         Init(CharacterNames.Takumu);
-        _takumuLayerIndex = Animator.GetLayerIndex("Takumu Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Takumu Layer");
     }
     protected override void Update()
     {
@@ -20,7 +19,6 @@ public class Takumu : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_takumuLayerIndex, 1f);
         TakumuSP().Forget();
     }
 
@@ -28,7 +26,6 @@ public class Takumu : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_takumuLayerIndex, 0f);
     }
 
     async UniTask TakumuSP()

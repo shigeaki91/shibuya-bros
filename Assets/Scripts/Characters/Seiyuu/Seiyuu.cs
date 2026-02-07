@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 
 public class Seiyuu : Character
 {
-    int _seiyuuLayerIndex;
 
     [SerializeField] GameObject _CanonPrefab;
     [SerializeField] GameObject _coconutPrefab;
@@ -12,7 +11,7 @@ public class Seiyuu : Character
     void Start()
     {
         Init(CharacterNames.Seiyuu);
-        _seiyuuLayerIndex = Animator.GetLayerIndex("Seiyuu Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Seiyuu Layer");
     }
     protected override void Update()
     {
@@ -22,7 +21,6 @@ public class Seiyuu : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_seiyuuLayerIndex, 1f);
         SeiyuuSP().Forget();
     }
 
@@ -30,7 +28,6 @@ public class Seiyuu : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_seiyuuLayerIndex, 0f);
     }
 
     async UniTask SeiyuuSP()

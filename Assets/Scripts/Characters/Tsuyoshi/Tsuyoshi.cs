@@ -2,8 +2,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 public class Tsuyoshi : Character
-{
-    int _tsuyoshiLayerIndex;    
+{ 
     [SerializeField] GameObject _shutterPrefab;
     [SerializeField] Vector2 _shutterSpawnPosition;
     void Start()
@@ -13,6 +12,7 @@ public class Tsuyoshi : Character
     protected override void Update()
     {
         base.Update();
+        _specialLayerIndex = Animator.GetLayerIndex("Tsuyoshi Layer");
     }
     public override void SPActivate()
     {

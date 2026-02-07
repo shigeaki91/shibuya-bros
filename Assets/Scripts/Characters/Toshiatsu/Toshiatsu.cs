@@ -3,13 +3,12 @@ using Cysharp.Threading.Tasks;
 
 public class Toshiatsu : Character
 {
-    int _toshiatsuLayerIndex;
     [SerializeField] GameObject _afroPrefab;
     [SerializeField] Vector2 _afroSpawnPosition;
     void Start()
     {
         Init(CharacterNames.Toshiatsu);
-        _toshiatsuLayerIndex = Animator.GetLayerIndex("Toshiatsu Layer");
+        _specialLayerIndex = Animator.GetLayerIndex("Toshiatsu Layer");
     }
     protected override void Update()
     {
@@ -19,7 +18,6 @@ public class Toshiatsu : Character
     {
         Debug.Log("Special Attack Activated for " + characterName);
         base.SPActivate();
-        Animator.SetLayerWeight(_toshiatsuLayerIndex, 1f);
         ToshiatsuSP().Forget();
     }
 
@@ -27,7 +25,6 @@ public class Toshiatsu : Character
     {
         Debug.Log("Special Attack Deactivated for " + characterName);
         base.SPDeactivate();
-        Animator.SetLayerWeight(_toshiatsuLayerIndex, 0f);
     }
 
     async UniTask ToshiatsuSP()
