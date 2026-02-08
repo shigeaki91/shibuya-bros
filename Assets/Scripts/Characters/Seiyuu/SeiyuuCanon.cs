@@ -3,7 +3,7 @@ using UnityEngine.UIElements;
 
 public class SeiyuuCanon : HitBox
 {
-    [SerializeField] float _exsistDuration = 0.2f;
+    [SerializeField] float _exsistDuration = 0.1f;
     BoxCollider2D _bc;
     SpriteRenderer _sr;
     void Awake()

@@ -17,5 +17,5 @@ MonoBehaviour:
   _knockback: {x: 2, y: 4}
   _occurTime: 0.15
   _duration: 0.3
-  _endingLag: 0.05
+  _endingLag: 0.2
   _downTime: 0.35

@@ -3,7 +3,6 @@ using UnityEngine;
 using LitMotion;
 using LitMotion.Extensions;
 using Cysharp.Threading.Tasks;
-using Microsoft.Unity.VisualStudio.Editor;
 
 
 public enum FadeState

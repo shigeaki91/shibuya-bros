@@ -3,24 +3,19 @@ using LitMotion;
 
 public class SeiyuuExplode : HitBox
 {
-    float _exsistDuration = 0.3f;
+    [SerializeField] Animator _animator;
+    float _exsistDuration = 0.4f;
     void Awake()
     {
         Damage = 15f;
         Knockback = new Vector2(6f, 6f);
         InvincibilityDuration = 0.1f;
         DownTime = 1.0f;
-
-        LMotion.Create(0.3f, 1f, 0.1f)
-            .WithEase(Ease.OutQuad)
-            .Bind((float val) =>
-            {
-                transform.localScale = Vector3.one * val;
-            });
     }
 
     void Start()
     {
+        _animator.Play("Explosion");
         AudioManager.Instance.PlaySFX(SFXtypes.Explosion);
         Destroy(gameObject, _exsistDuration);
     }

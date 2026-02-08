@@ -32,7 +32,7 @@ public class Toshiatsu : Character
         var dir = sr.flipX ? -1 : 1;
         var afroSpawnPosition = _afroSpawnPosition; 
         afroSpawnPosition.x *= dir;
-        await UniTask.Delay(200);
+        await UniTask.Delay(400);
         var afroGo = Instantiate(_afroPrefab, (Vector2)transform.position + afroSpawnPosition, Quaternion.identity);
         var afro = afroGo.GetComponent<ToshiatsuAfro>();
         afro.Owner = this;

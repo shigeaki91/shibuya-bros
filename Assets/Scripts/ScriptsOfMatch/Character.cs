@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour
     bool isJumpHolding = false;
     float SpecialDurationTimer = 0f;
     float _specialDurationTime = 7f;
-    float _specialChargeTime = 0.7f;
+    float _specialChargeTime = 0.4f;
     TMPro.TMP_Text _playerIndexText;
     int _baseLayerIndex;
     protected int _specialLayerIndex;
@@ -130,8 +130,6 @@ public abstract class Character : MonoBehaviour
                 SpecialDurationTimer = _specialDurationTime;
             }
         }
-        
-        Debug.Log(Animator.GetCurrentAnimatorStateInfo(_specialLayerIndex).IsName("Special"));
     }
 
     public virtual void Move(float direction, float speedScaler)

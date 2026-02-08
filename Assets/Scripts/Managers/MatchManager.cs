@@ -145,7 +145,7 @@ public class MatchManager : MonoBehaviour
 
     async UniTask HpTakeDamage(TMPro.TMP_Text hpText)
     {
-        var oriSize = hpText.fontSize;
+        var oriSize = 32f;
         await LMotion.Create(oriSize + 10f, oriSize, 0.2f)
                     .Bind(x =>
                     {

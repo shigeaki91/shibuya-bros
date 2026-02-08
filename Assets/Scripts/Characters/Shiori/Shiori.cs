@@ -1,6 +1,5 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-using UnityEditor.Experimental.GraphView;
 
 public class Shiori : Character
 {
