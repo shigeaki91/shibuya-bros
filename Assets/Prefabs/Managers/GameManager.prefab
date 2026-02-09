@@ -44,26 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dc52543736cced4c94893f63870502a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedCharacterImages:
+  selectedCharacterSprites:
   - {fileID: 0}
   - {fileID: 0}
   selectedCharacters: 0000000000000000
   selectedCharacterPrefabs:
   - {fileID: 0}
   - {fileID: 0}
-  _charaPrefabEntries:
-  - CharacterName: 2
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 48993ea1d331fbb458a8deed5b9f0683, type: 3}
-  - CharacterName: 3
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 5805869db78c39748a12fc7eafbbe86c, type: 3}
-  - CharacterName: 4
-    CharacterPrefab: {fileID: 4889456766472064049, guid: e60506eb1a2c5564ca43d1b88736ced9, type: 3}
-  - CharacterName: 5
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 2a3869793fc34e54aa14db8aef46f54c, type: 3}
-  - CharacterName: 6
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 684dce317caab014fb3a7d8bce6877f7, type: 3}
-  - CharacterName: 7
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 872a8e21447b59644bd89c6e9c83795a, type: 3}
-  - CharacterName: 8
-    CharacterPrefab: {fileID: 4889456766472064049, guid: 7ed37b582970b6b4daa21b45ddaad6dc, type: 3}
   _matchScopePrefab: {fileID: 6294973239847287047, guid: 7f072b1ac6fcd2e459b75dfb0aca9a5b, type: 3}
+  PrivacyProtected: 0

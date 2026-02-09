@@ -8,22 +8,16 @@ using UnityEngine.UI;
 using LitMotion;
 using System.Threading;
 using System.Threading.Tasks;
+using VContainer;
 
-[System.Serializable]
-struct CharaImageEntry
-{
-    public CharacterNames CharacterName;
-    public Sprite CharacterImage;
-}
 public class SelectManager : MonoBehaviour
 {
     public ReactiveProperty<int> _selectedIndex;
-    [SerializeField] float a;
     [SerializeField] UIShakeCameraStyle _cameraShake;
     [SerializeField] GameObject _charaSelectButtonPrefab;
     [SerializeField] List<CharaSelectButton> _charaSelectButtons;
-    [SerializeField] CharaImageEntry[] _charaImageEntries;
-    Dictionary<CharacterNames, Sprite> _charaImageDict;
+    [Inject] CharacterDatas _characterDatas;
+    Dictionary<CharacterNames, Sprite> _charaSpriteDict;
     [SerializeField] List<Vector2> _buttonPositions;
     Image[] _selectedCharacterImages = new Image[2];
     
@@ -44,21 +38,23 @@ public class SelectManager : MonoBehaviour
     {
         _selectedIndex = new ReactiveProperty<int>(0);
         var i = 0;
-        _charaImageDict = new Dictionary<CharacterNames, Sprite>();
-        foreach (var entry in _charaImageEntries)
+        _charaSpriteDict = new Dictionary<CharacterNames, Sprite>();
+        foreach (var entry in _characterDatas.CharaDataEntries)
         {
-            _charaImageDict[entry.CharacterName] = entry.CharacterImage;
+            var name = entry.CharacterName;
+            var sprite = GameManager.Instance.PrivacyProtected ? entry.ReplacedSprite : entry.CharacterSprite;
+            _charaSpriteDict[name] = sprite;
 
             var button = Instantiate(_charaSelectButtonPrefab, _cameraShake.transform).GetComponent<CharaSelectButton>();
             _charaSelectButtons.Add(button);
-            button.CharacterName = entry.CharacterName;
-            button.CharacterImage = entry.CharacterImage;
+            button.CharacterName = name;
+            button.CharacterSprite = sprite;
             button.transform.localPosition = _buttonPositions[i];
             i++;
 
             button.OnClicked.Subscribe(_ =>
             {
-                Select(entry.CharacterImage, entry.CharacterName).Forget();
+                Select(sprite, name).Forget();
             }).AddTo(this);
         }
 
@@ -120,7 +116,7 @@ public class SelectManager : MonoBehaviour
         var selectedCharacterImage = new GameObject("SelectedCharacterImage").AddComponent<Image>();
         selectedCharacterImage.transform.SetParent(_cameraShake.transform, false);
         selectedCharacterImage.transform.localPosition = _selectedCharacterImagePositions[index];
-        selectedCharacterImage.sprite = _charaImageDict[characterName];
+        selectedCharacterImage.sprite = _charaSpriteDict[characterName];
         selectedCharacterImage.preserveAspect = true;
         selectedCharacterImage.rectTransform.sizeDelta = new Vector2(150f, 150f);
         _selectedCharacterImages[index] = selectedCharacterImage;

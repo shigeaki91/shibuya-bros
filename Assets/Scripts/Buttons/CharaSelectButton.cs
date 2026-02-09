@@ -6,7 +6,7 @@ public class CharaSelectButton : MonoBehaviour
 {
     public Button Button;
     public CharacterNames CharacterName;
-    public Sprite CharacterImage;
+    public Sprite CharacterSprite;
     [SerializeField] Image _image;
     public Observable<Unit> OnClicked { get; private set; }
 
@@ -18,6 +18,6 @@ public class CharaSelectButton : MonoBehaviour
 
     void Start()
     {
-        _image.sprite = CharacterImage;
+        _image.sprite = CharacterSprite;
     }
 }

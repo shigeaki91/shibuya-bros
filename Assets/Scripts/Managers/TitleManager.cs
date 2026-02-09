@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Extensions;
 using Cysharp.Threading.Tasks;
 using R3;
@@ -12,7 +13,7 @@ public class TitleManager : MonoBehaviour
     InputAction _selectAction;
     SelectButton _selectButton;
     [SerializeField] FadeController _fadeController;
-
+    [SerializeField] Image _privacyProtected;
     void Awake()
     {
         _inputActionMap = _inputActionAsset.FindActionMap("Title");
@@ -32,6 +33,7 @@ public class TitleManager : MonoBehaviour
         {
             AudioManager.Instance.PlayBGM(BGMtypes.MainTheme, volumeScale: 0.5f);
         }
+        _privacyProtected.enabled = GameManager.Instance.PrivacyProtected;
     }
 
     async UniTask OnSelectPressed()

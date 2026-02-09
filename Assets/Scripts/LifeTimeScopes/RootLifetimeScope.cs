@@ -4,8 +4,9 @@ using VContainer.Unity;
 
 public class RootLifetimeScope : LifetimeScope
 {
+    [SerializeField] CharacterDatas _characterDatas;
     protected override void Configure(IContainerBuilder builder)
     {
-        // Register global services here
+        builder.RegisterInstance(_characterDatas).As<CharacterDatas>();
     }
 }
