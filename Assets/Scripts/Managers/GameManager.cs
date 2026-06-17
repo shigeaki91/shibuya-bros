@@ -2,19 +2,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using VContainer;
 
-
+[System.Serializable]
+struct CharaPrefabEntry
+{
+    public CharacterNames CharacterName;
+    public GameObject CharacterPrefab;
+}
 public class GameManager : MonoBehaviour
 {
     public Sprite[] selectedCharacterSprites = new Sprite[2];
     public CharacterNames[] selectedCharacters = new CharacterNames[2];
     public GameObject[] selectedCharacterPrefabs = new GameObject[2];
     public static GameManager Instance { get; private set; }
-    [Inject] CharacterDatas _characterDatas;
+    [SerializeField] CharaPrefabEntry[] _charaPrefabEntries;
     Dictionary<CharacterNames, GameObject> _charaPrefabDict;
     [SerializeField] GameObject _matchScopePrefab;
-    public bool PrivacyProtected = false;
 
     void Awake()
     {
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour
         {
             // RootLifetimeScopeで生成するため、DontDestroyOnLoadは不要
             Instance = this;
-            foreach (var entry in _characterDatas.CharaDataEntries)
+            foreach (var entry in _charaPrefabEntries)
             {
                 _charaPrefabDict ??= new Dictionary<CharacterNames, GameObject>();
                 _charaPrefabDict[entry.CharacterName] = entry.CharacterPrefab;
