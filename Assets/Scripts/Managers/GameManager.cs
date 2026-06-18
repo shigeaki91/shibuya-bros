@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 [System.Serializable]
 struct CharaPrefabEntry
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlayBGM(BGMtypes.BattleTheme, volumeScale: 0.5f);
         var matchScope = Instantiate(_matchScopePrefab);
         SceneManager.MoveGameObjectToScene(matchScope, scene);
-        await Task.Delay(3500);
+        await UniTask.Delay(3500);
         var characters = FindObjectsByType<Character>(FindObjectsSortMode.None);
         foreach (var chara in characters)
         {

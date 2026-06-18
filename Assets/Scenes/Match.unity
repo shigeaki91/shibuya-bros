@@ -435,6 +435,7 @@ MonoBehaviour:
   P2Image: {fileID: 1901139379}
   P1SPGauge: {fileID: 489025113}
   P2SPGauge: {fileID: 1582312442}
+  _startPlayer: {fileID: 661645372}
   _fatalEffectPlayer: {fileID: 185172176}
   _gameSetPlayer: {fileID: 1813590744}
   _fader: {fileID: 2047416267}

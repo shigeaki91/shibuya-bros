@@ -19,6 +19,8 @@ public class MatchManager : MonoBehaviour
     [SerializeField] Image P2Image;
     [SerializeField] SPGauge P1SPGauge;
     [SerializeField] SPGauge P2SPGauge;
+    [SerializeField] VideoPlayer _startPlayer;
+    RawImage _startImage;
     [SerializeField] VideoPlayer _fatalEffectPlayer;
     RawImage _fatalEffectImage;
     [SerializeField] VideoPlayer _gameSetPlayer;
@@ -29,17 +31,37 @@ public class MatchManager : MonoBehaviour
 
     void Awake()
     {
+        _startPlayer.source = VideoSource.Url;
+        _startPlayer.url =
+            Application.streamingAssetsPath +
+            "/Movies/Start.mp4";
+        _fatalEffectPlayer.source = VideoSource.Url;
+        _fatalEffectPlayer.url =
+            Application.streamingAssetsPath +
+            "/Movies/FatalEffect.mp4";
+        _gameSetPlayer.source = VideoSource.Url;
+        _gameSetPlayer.url =
+            Application.streamingAssetsPath +
+            "/Movies/GameSet.mp4";
+        _startPlayer.Prepare();
         _fatalEffectPlayer.Prepare();
         _gameSetPlayer.Prepare();
+        _startImage = _startPlayer.GetComponent<RawImage>();
         _fatalEffectImage = _fatalEffectPlayer.GetComponent<RawImage>();
         _gameSetImage = _gameSetPlayer.GetComponent<RawImage>();
+        _startImage.enabled = false;
         _fatalEffectImage.enabled = false;
         _gameSetImage.enabled = false;
         P1Image.sprite = GameManager.Instance.selectedCharacterSprites[0];
         P2Image.sprite = GameManager.Instance.selectedCharacterSprites[1];
         
+        _startPlayer.loopPointReached += OnVideoFinished;
         _fatalEffectPlayer.loopPointReached += OnVideoFinished;
         _gameSetPlayer.loopPointReached += OnVideoFinished;
+
+        _startImage.enabled = true;
+        _startPlayer.time = 0;
+        _startPlayer.Play();
     }
     void Start()
     {

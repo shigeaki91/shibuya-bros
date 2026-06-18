@@ -50,13 +50,13 @@ public class BeforeMatchManager : MonoBehaviour
             var charaSprite = GameManager.Instance.selectedCharacterSprites[i];
             DisplayCharaImage(charaSprite, i);
             AudioManager.Instance.PlaySFX(SFXtypes.Dozun);
-            await Task.Delay(100);
+            await UniTask.Delay(100);
         }
 
-        await Task.Delay(500);
+        await UniTask.Delay(500);
 
         DisplayVS();
-        await Task.Delay(3000);
+        await UniTask.Delay(3000);
 
         AudioManager.Instance.StopAllSounds();
         SceneManager.LoadScene("Match");

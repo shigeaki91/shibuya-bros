@@ -1,7 +1,7 @@
 using VContainer;
 using VContainer.Unity;
 using UnityEngine;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 public class MatchLifeTimeScope : LifetimeScope
 {
@@ -28,7 +28,7 @@ public class MatchLifeTimeScope : LifetimeScope
         var groupTargetSetting = FindAnyObjectByType<GroupTargetSetting>();
         matchManager.gameObject.SetActive(false);
         groupTargetSetting.gameObject.SetActive(false);
-        await Task.Delay(1);
+        await UniTask.Delay(1);
         for (int i = 1; i <= _playerCount; i++)
         {
             _id = i;
@@ -38,7 +38,7 @@ public class MatchLifeTimeScope : LifetimeScope
             var scope = Instantiate(_playerScopePrefab, transform);
             Debug.Log(scope.name);
             scope.name = $"PlayerScope_{i}";
-            await Task.Delay(1000);
+            await UniTask.Delay(1000);
         }
 
         matchManager.gameObject.SetActive(true);

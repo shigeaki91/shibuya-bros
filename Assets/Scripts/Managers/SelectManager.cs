@@ -7,7 +7,6 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using LitMotion;
 using System.Threading;
-using System.Threading.Tasks;
 
 [System.Serializable]
 struct CharaImageEntry
@@ -162,8 +161,11 @@ public class SelectManager : MonoBehaviour
     async UniTask MatchStart(CancellationToken ct = default)
     {
         await _faderToMatch.FadeIn();
-        await Task.Delay(1000);
+        Debug.Log("Before Delay");
+        await UniTask.Delay(1000);
+        Debug.Log("Before Load");
         SceneManager.LoadScene("BeforeMatch");
+        Debug.Log("After Load");
     }
 
     async UniTask BlueLightMove()
